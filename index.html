@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>だんじりGP - ムーンステップサーガ</title>
+    <meta name="description" content="だんじりGP - ムーンステップサーガ。泉州の町を地車で駆ける、祭り×レースゲーム（試遊版）。">
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <!-- ホーム画面に追加すると、Safari のバー（左下の戻るボタンなど）が出ない全画面で遊べる -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="TemplateData/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="だんじりGP">
+    <style>
+      #home-tip { position: fixed; left: 50%; top: 8px; transform: translateX(-50%); z-index: 50; display: none;
+        background: rgba(10,16,40,0.92); color: #fff; font: bold 14px/1.5 sans-serif; padding: 8px 14px; border-radius: 12px;
+        border: 1px solid #f2c94c; max-width: 92vw; text-align: center; }
+      #home-tip b { color: #f2c94c; }
+    </style>
+  </head>
+  <body>
+    <div id="unity-container" class="unity-desktop">
+      <div id="unity-fullscreen-container">
+        <canvas id="unity-canvas" width="960" height="600" tabindex="-1"></canvas>
+        <div id="unity-loading-container">
+          <div id="unity-loading-bar">
+            <div id="unity-logo"></div>
+            <div id="unity-progress-bar-empty">
+              <div id="unity-progress-bar-full"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="unity-warning"> </div>
+      <div id="home-tip">iPhoneの方へ：<b>共有ボタン →「ホーム画面に追加」</b>から開くと、全画面で遊べます（左下のボタンも押しやすくなります）<br><small>タップで閉じる</small></div>
+      <div id="unity-footer">
+        <div id="unity-logo-title-footer"></div>
+        <div id="unity-fullscreen-button"></div>
+        <div id="unity-build-title">だんじりGP</div>
+      </div>
+    </div>
+    <script>
+      // 10/17 不具合：iPhone のマナーモードで音楽・効果音が消える（実況だけ鳴る）。
+      // ページを開いたときから「メディア再生」として鳴らす。さらに最初にさわったとき無音の再生を流し続けて、マナーモードでも音が出るようにする。
+      (function () {
+        var setPlayback = function () { try { if (navigator.audioSession && navigator.audioSession.type !== 'playback') navigator.audioSession.type = 'playback'; } catch (e) {} };
+        setPlayback();
+        var silent = null;
+        var makeSilent = function () {
+          var rate = 8000, n = rate / 2, buf = new ArrayBuffer(44 + n), v = new DataView(buf);
+          var w = function (o, str) { for (var i = 0; i < str.length; i++) v.setUint8(o + i, str.charCodeAt(i)); };
+          w(0, 'RIFF'); v.setUint32(4, 36 + n, true); w(8, 'WAVE'); w(12, 'fmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+          v.setUint32(24, rate, true); v.setUint32(28, rate, true); v.setUint16(32, 1, true); v.setUint16(34, 8, true); w(36, 'data'); v.setUint32(40, n, true);
+          for (var i = 0; i < n; i++) v.setUint8(44 + i, 128);
+          var a = new Audio(URL.createObjectURL(new Blob([buf], { type: 'audio/wav' })));
+          a.loop = true; a.setAttribute('playsinline', ''); a.preload = 'auto';
+          return a;
+        };
+        var resumeUnity = function () {
+          try { if (typeof WEBAudio !== 'undefined' && WEBAudio.audioContext && WEBAudio.audioContext.state !== 'running' && WEBAudio.audioContext.state !== 'closed') WEBAudio.audioContext.resume(); } catch (e) {}
+        };
+        var unlock = function () {
+          setPlayback();
+          try { if (!silent) silent = makeSilent(); if (silent.paused) { var p = silent.play(); if (p && p.catch) p.catch(function () {}); } } catch (e) {}
+          resumeUnity();
+        };
+        ['touchstart', 'touchend', 'pointerdown', 'mousedown', 'keydown'].forEach(function (ev) { document.addEventListener(ev, unlock, true); });
+        document.addEventListener('visibilitychange', function () { if (!document.hidden) { setPlayback(); resumeUnity(); } });
+        setInterval(resumeUnity, 700);
+        // 実況の録音した声の一覧を、ページを開いた時点で読んでおく（レース開始直後から録音の声で話せるように）
+        try { fetch('voice/index.json', { cache: 'force-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (a) { if (a) window.__voiceIndex = a; }).catch(function () {}); } catch (e) {}
+      })();
+      let canvas = document.querySelector("#unity-canvas");
+      let fullscreenContainer = document.querySelector("#unity-fullscreen-container");
+
+      // Shows a temporary message banner/ribbon for a few seconds, or
+      // a permanent error message on top of the canvas if type=='error'.
+      // If type=='warning', a yellow highlight color is used.
+      // Modify or remove this function to customize the visually presented
+      // way that non-critical warnings and error messages are presented to the
+      // user.
+      function unityShowBanner(msg, type) {
+        var warningBanner = document.querySelector("#unity-warning");
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+        }
+        var div = document.createElement('div');
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type == 'error') div.style = 'background: red; padding: 10px;';
+        else {
+          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+          setTimeout(function() {
+            warningBanner.removeChild(div);
+            updateBannerVisibility();
+          }, 5000);
+        }
+        updateBannerVisibility();
+      }
+
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/WebGL.loader.js";
+      var config = {
+        arguments: [],
+        dataUrl: buildUrl + "/WebGL.data",
+        frameworkUrl: buildUrl + "/WebGL.framework.js",
+        codeUrl: buildUrl + "/WebGL.wasm",
+        streamingAssetsUrl: "StreamingAssets",
+
+        // If you have a custom web site structure, or want to place multiple Unity build instances on the same page,
+        // you can pass fullscreenElementID: "my-unity-fullscreen-container-id", in this configuration field to
+        // explicitly point to the element tree root that is displayed in fullscreen mode.
+        fullscreenElementID: "unity-fullscreen-container",
+
+        companyName: "Don Erika",
+        productName: "だんじりGP",
+        productVersion: "1.0.0",
+        showBanner: unityShowBanner,
+        // errorHandler: function(err, url, line) {
+        //    alert("error " + err + " occurred at line " + line);
+        //    // Return 'true' if you handled this error and don't want Unity
+        //    // to process it further, 'false' otherwise.
+        //    return true;
+        // },
+      };
+
+      // By default, Unity keeps WebGL canvas render target size matched with
+      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+      // Set this to false if you want to decouple this synchronization from
+      // happening inside the engine, and you would instead like to size up
+      // the canvas DOM size and WebGL render target sizes yourself.
+      // config.matchWebGLToCanvasSize = false;
+
+      // If you would like all file writes inside Unity Application.persistentDataPath
+      // directory to automatically persist so that the contents are remembered when
+      // the user revisits the site the next time, uncomment the following line:
+      // config.autoSyncPersistentDataPath = true;
+      // This autosyncing is currently not the default behavior to avoid regressing
+      // existing user projects that might rely on the earlier manual
+      // JS_FileSystem_Sync() behavior, but in future Unity version, this will be
+      // expected to change.
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        // Mobile device style: fill the whole browser client area with the game canvas:
+
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover';
+        document.getElementsByTagName('head')[0].appendChild(meta);
+        document.querySelector("#unity-container").className = "unity-mobile";
+        // iPhone の Safari で開いたときだけ、ホーム画面に追加する案内を少しのあいだ出す
+        if (/iPhone|iPad|iPod/i.test(navigator.userAgent) && !window.navigator.standalone && !window.matchMedia('(display-mode: fullscreen), (display-mode: standalone)').matches) {
+          var tip = document.querySelector("#home-tip");
+          tip.style.display = "block";
+          tip.onclick = function () { tip.style.display = "none"; };
+          setTimeout(function () { tip.style.display = "none"; }, 12000);
+        }
+        canvas.className = "unity-mobile";
+        // 10/17 不具合：iPhone では画面のいちばん下の帯（Safari の下のバー・ホームバー）にタップが届かない。
+        // ゲームの画面を、実際に見えている高さ（visualViewport）にぴったり合わせる。
+        // 10/17：全画面（バーが隠れた状態・ホーム画面から開いた状態）でも、画面の一番下まで指が届くように
+        // 見えている高さを毎回はかり直して、ゲームの画面をそれにぴったり合わせる（バーの出入りは知らせが来ないことがあるので、少しずつ見張る）
+        var isStandalone = !!window.navigator.standalone || window.matchMedia('(display-mode: fullscreen), (display-mode: standalone)').matches;
+        var lastFit = "";
+        var fitViewport = function () {
+          var vv = window.visualViewport;
+          var cont = document.querySelector("#unity-container");
+          var hgt = Math.max(window.innerHeight, document.documentElement.clientHeight, vv ? vv.height : 0);
+          var top = 0;
+          if (isStandalone) {
+            var land = window.innerWidth > window.innerHeight;
+            var full = land ? Math.min(screen.width, screen.height) : Math.max(screen.width, screen.height);
+            if (full > hgt) hgt = full;
+          } else if (vv && vv.offsetTop > 0 && vv.height < window.innerHeight - 1) {
+            top = vv.offsetTop; hgt = vv.height;   // ピンチなどで動いたときだけ合わせる
+          }
+          var key = top + "/" + hgt;
+          if (key === lastFit) return;
+          lastFit = key;
+          cont.style.top = top + "px";
+          cont.style.bottom = "auto";
+          cont.style.height = hgt + "px";
+          window.scrollTo(0, 0);
+        };
+        document.documentElement.style.cssText += ";height:100%;overflow:hidden;";
+        document.body.style.cssText += ";margin:0;height:100%;overflow:hidden;touch-action:none;overscroll-behavior:none;";
+        fitViewport();
+        if (window.visualViewport) { window.visualViewport.addEventListener("resize", fitViewport); window.visualViewport.addEventListener("scroll", fitViewport); }
+        window.addEventListener("resize", fitViewport);
+        window.addEventListener("orientationchange", function () { setTimeout(fitViewport, 300); setTimeout(fitViewport, 900); });
+        setInterval(fitViewport, 400);
+
+        // 10/17 裁定：スマホが熱くなる・重い → 見た目はそのままで軽く。
+        // iPhone は画面の細かさが3倍で、ゲームを3倍×3倍＝9倍の点で描いていた。スマホの画面の大きさでは見分けがつかない
+        // 1.6倍までにおさえる（描く点の数がおよそ3分の1。熱と電池の減りが大きく下がる）
+        config.devicePixelRatio = Math.min(window.devicePixelRatio || 1, 1.6);
+
+
+      } else {
+        // Desktop style: Render the game canvas container in a window that can be maximized to fullscreen:
+        fullscreenContainer.style.width = "960px";
+        fullscreenContainer.style.height = "600px";
+      }
+
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        const loadingContainer = document.querySelector("#unity-loading-container");
+        const progressBarFull = document.querySelector("#unity-progress-bar-full");
+
+        createUnityInstance(canvas, config, (progress) => {
+          if (progress < 1) {
+            loadingContainer.style.display = "block";
+            progressBarFull.style.width = 100 * progress + "%";
+          } else {
+            loadingContainer.style.display = "none";
+          }
+        }).then((unityInstance) => {
+                document.querySelector("#unity-fullscreen-button").onclick = () => {
+                  unityInstance.SetFullscreen(1);
+                };
+
+              }).catch((message) => {
+                alert(message);
+              });
+            };
+
+      document.body.appendChild(script);
+
+    </script>
+  </body>
+</html>
