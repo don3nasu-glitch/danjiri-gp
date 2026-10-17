@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="ja">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -71,7 +71,7 @@
         document.addEventListener('visibilitychange', function () { if (!document.hidden) { setPlayback(); resumeUnity(); } });
         setInterval(resumeUnity, 700);
         // 実況の録音した声の一覧を、ページを開いた時点で読んでおく（レース開始直後から録音の声で話せるように）
-        try { fetch('voice/index.json', { cache: 'force-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (a) { if (a) window.__voiceIndex = a; }).catch(function () {}); } catch (e) {}
+        try { fetch('voice/index.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (a) { if (a) window.__voiceIndex = a; }).catch(function () {}); } catch (e) {}
       })();
       let canvas = document.querySelector("#unity-canvas");
       let fullscreenContainer = document.querySelector("#unity-fullscreen-container");
