@@ -43,6 +43,17 @@
       </div>
     </div>
     <script>
+      // 10/18 裁定：セーブの二重保存。iPhoneアプリ版では、本体の保存場所（Capacitor Preferences）に置いた記録を先に読み戻しておく
+      (function () {
+        try {
+          var cap = window.Capacitor, pref = cap && cap.Plugins && cap.Plugins.Preferences;
+          if (pref && pref.get) pref.get({ key: 'djgp_save' }).then(function (r) {
+            if (r && r.value) { window.__djgpSave = r.value; try { if (!window.localStorage.getItem('djgp_save')) window.localStorage.setItem('djgp_save', r.value); } catch (e) {} }
+          }).catch(function () {});
+        } catch (e) {}
+      })();
+    </script>
+    <script>
       // 10/17 不具合：iPhone のマナーモードで音楽・効果音が消える（実況だけ鳴る）。
       // ページを開いたときから「メディア再生」として鳴らす。さらに最初にさわったとき無音の再生を流し続けて、マナーモードでも音が出るようにする。
       (function () {
