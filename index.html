@@ -100,6 +100,10 @@
           if (pref && pref.get) pref.get({ key: 'djgp_save' }).then(function (r) {
             if (r && r.value) { window.__djgpSave = r.value; try { if (!window.localStorage.getItem('djgp_save')) window.localStorage.setItem('djgp_save', r.value); } catch (e) {} }
           }).catch(function () {});
+          // 10/21：村のセーブ（おさいふ・借金・クエスト）も同じく読み戻す
+          if (pref && pref.get) pref.get({ key: 'djgp_village' }).then(function (r) {
+            if (r && r.value) { try { if (!window.localStorage.getItem('djgp_village')) window.localStorage.setItem('djgp_village', r.value); } catch (e) {} }
+          }).catch(function () {});
         } catch (e) {}
       })();
     </script>
