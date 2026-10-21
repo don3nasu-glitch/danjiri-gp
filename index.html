@@ -167,13 +167,14 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/WebGL.loader.js?v=5a6ff96b48fe";
+      var loaderUrl = buildUrl + "/WebGL.loader.js?v=d12a44c3595b";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/WebGL.data.unityweb?v=5a6ff96b48fe",
-        frameworkUrl: buildUrl + "/WebGL.framework.js.unityweb?v=5a6ff96b48fe",
-        codeUrl: buildUrl + "/WebGL.wasm.unityweb?v=5a6ff96b48fe",
+        dataUrl: buildUrl + "/WebGL.data.unityweb?v=d12a44c3595b",
+        frameworkUrl: buildUrl + "/WebGL.framework.js.unityweb?v=d12a44c3595b",
+        codeUrl: buildUrl + "/WebGL.wasm.unityweb?v=d12a44c3595b",
         streamingAssetsUrl: "StreamingAssets",
+        cacheControl: function (url) { return "no-store"; },
 
         // If you have a custom web site structure, or want to place multiple Unity build instances on the same page,
         // you can pass fullscreenElementID: "my-unity-fullscreen-container-id", in this configuration field to
