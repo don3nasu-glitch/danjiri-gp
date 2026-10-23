@@ -19,6 +19,9 @@
         background: rgba(10,16,40,0.92); color: #fff; font: bold 14px/1.5 sans-serif; padding: 8px 14px; border-radius: 12px;
         border: 1px solid #f2c94c; max-width: 92vw; text-align: center; }
       #home-tip b { color: #f2c94c; }
+      #unity-loading-container { background: #0a1028 center/cover no-repeat; }
+      #unity-loading-container::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(0,0,0,.45), rgba(0,0,0,0) 45%); pointer-events: none; }
+      #unity-loading-bar { z-index: 1; }
     </style>
   </head>
   <body>
@@ -171,12 +174,12 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/WebGL.loader.js?v=79b041b4740d";
+      var loaderUrl = buildUrl + "/WebGL.loader.js?v=58a60c10ae41";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/WebGL.data.unityweb?v=79b041b4740d",
-        frameworkUrl: buildUrl + "/WebGL.framework.js.unityweb?v=79b041b4740d",
-        codeUrl: buildUrl + "/WebGL.wasm.unityweb?v=79b041b4740d",
+        dataUrl: buildUrl + "/WebGL.data.unityweb?v=58a60c10ae41",
+        frameworkUrl: buildUrl + "/WebGL.framework.js.unityweb?v=58a60c10ae41",
+        codeUrl: buildUrl + "/WebGL.wasm.unityweb?v=58a60c10ae41",
         streamingAssetsUrl: "StreamingAssets",
         cacheControl: function (url) { return "no-store"; },
 
@@ -284,7 +287,7 @@
 
         createUnityInstance(canvas, config, (progress) => {
           if (progress < 1) {
-            loadingContainer.style.display = "block";
+            loadingContainer.style.display = "block"; loadingContainer.style.backgroundImage = "url(TemplateData/key" + (1 + Math.floor(Math.random() * 4)) + ".webp)";
             progressBarFull.style.width = 100 * progress + "%";
           } else {
             loadingContainer.style.display = "none";
