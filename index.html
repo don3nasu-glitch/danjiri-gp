@@ -100,6 +100,10 @@
           if (pref && pref.get) pref.get({ key: 'djgp_save' }).then(function (r) {
             if (r && r.value) { window.__djgpSave = r.value; try { if (!window.localStorage.getItem('djgp_save')) window.localStorage.setItem('djgp_save', r.value); } catch (e) {} }
           }).catch(function () {});
+          // 10/23 裁定（編集長）：セーブは最重要。蔵の控え（全部入りの記録）も同じく読み戻す
+          if (pref && pref.get) pref.get({ key: 'djgp_vault' }).then(function (r) {
+            if (r && r.value) { try { if (!window.localStorage.getItem('djgp_vault')) window.localStorage.setItem('djgp_vault', r.value); } catch (e) {} }
+          }).catch(function () {});
           // 10/21：村のセーブ（おさいふ・借金・クエスト）も同じく読み戻す
           if (pref && pref.get) pref.get({ key: 'djgp_village' }).then(function (r) {
             if (r && r.value) { try { if (!window.localStorage.getItem('djgp_village')) window.localStorage.setItem('djgp_village', r.value); } catch (e) {} }
@@ -167,12 +171,12 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/WebGL.loader.js?v=37d0a02ef5a7";
+      var loaderUrl = buildUrl + "/WebGL.loader.js?v=d0e931f37365";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/WebGL.data.unityweb?v=37d0a02ef5a7",
-        frameworkUrl: buildUrl + "/WebGL.framework.js.unityweb?v=37d0a02ef5a7",
-        codeUrl: buildUrl + "/WebGL.wasm.unityweb?v=37d0a02ef5a7",
+        dataUrl: buildUrl + "/WebGL.data.unityweb?v=d0e931f37365",
+        frameworkUrl: buildUrl + "/WebGL.framework.js.unityweb?v=d0e931f37365",
+        codeUrl: buildUrl + "/WebGL.wasm.unityweb?v=d0e931f37365",
         streamingAssetsUrl: "StreamingAssets",
         cacheControl: function (url) { return "no-store"; },
 
