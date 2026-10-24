@@ -19,9 +19,6 @@
         background: rgba(10,16,40,0.92); color: #fff; font: bold 14px/1.5 sans-serif; padding: 8px 14px; border-radius: 12px;
         border: 1px solid #f2c94c; max-width: 92vw; text-align: center; }
       #home-tip b { color: #f2c94c; }
-      #unity-loading-container { background: #0a1028 center/cover no-repeat; }
-      #unity-loading-container::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(0,0,0,.45), rgba(0,0,0,0) 45%); pointer-events: none; }
-      #unity-loading-bar { z-index: 1; }
       #fs-btn { position: fixed; left: 50%; top: calc(12px + env(safe-area-inset-top)); transform: translateX(-50%); z-index: 60; display: none;
         background: rgba(10,16,40,0.85); color: #fff; font: bold 15px/1 sans-serif; padding: 10px 16px; border-radius: 22px; border: 1px solid #f2c94c; }
       #fs-help { position: fixed; inset: 0; z-index: 70; display: none; background: rgba(0,0,0,.7); }
@@ -314,7 +311,7 @@
 
         createUnityInstance(canvas, config, (progress) => {
           if (progress < 1) {
-            loadingContainer.style.display = "block"; loadingContainer.style.backgroundImage = "url(TemplateData/key" + (1 + Math.floor(Math.random() * 4)) + ".webp)";
+            loadingContainer.style.display = "block";
             progressBarFull.style.width = 100 * progress + "%";
           } else {
             loadingContainer.style.display = "none";
