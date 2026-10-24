@@ -22,6 +22,12 @@
       #unity-loading-container { background: #0a1028 center/cover no-repeat; }
       #unity-loading-container::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(0,0,0,.45), rgba(0,0,0,0) 45%); pointer-events: none; }
       #unity-loading-bar { z-index: 1; }
+      #fs-btn { position: fixed; left: 50%; top: calc(12px + env(safe-area-inset-top)); transform: translateX(-50%); z-index: 60; display: none;
+        background: rgba(10,16,40,0.85); color: #fff; font: bold 15px/1 sans-serif; padding: 10px 16px; border-radius: 22px; border: 1px solid #f2c94c; }
+      #fs-help { position: fixed; inset: 0; z-index: 70; display: none; background: rgba(0,0,0,.7); }
+      #fs-help div { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: min(86vw, 420px); background: #101a3a; color: #fff;
+        font: 15px/1.7 sans-serif; padding: 18px 20px; border-radius: 14px; border: 1px solid #f2c94c; }
+      #fs-help b { color: #f2c94c; }
     </style>
   </head>
   <body>
@@ -38,6 +44,8 @@
         </div>
       </div>
       <div id="unity-warning"> </div>
+      <div id="fs-btn">⛶ 全画面にする</div>
+      <div id="fs-help"><div><b>iPhone で全画面にするには</b><br>1. 下（または上）の <b>共有ボタン</b> を押す<br>2. <b>「ホーム画面に追加」</b> を押す<br>3. ホーム画面にできた「だんじりGP」から開く<br><br>バーがなくなり、画面いっぱいで遊べます。<br>記録はそのまま引き継がれます（念のため「蔵の札」も控えておくと安心）。<br><br><small>タップで閉じる</small></div></div>
       <div id="home-tip">iPhoneの方へ：<b>共有ボタン →「ホーム画面に追加」</b>から開くと、全画面で遊べます（左下のボタンも押しやすくなります）<br><small>タップで閉じる</small></div>
       <div id="unity-footer">
         <div id="unity-logo-title-footer"></div>
@@ -219,6 +227,7 @@
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         // Mobile device style: fill the whole browser client area with the game canvas:
 
+        function isStandaloneNow() { return !!window.navigator.standalone || window.matchMedia('(display-mode: fullscreen), (display-mode: standalone)').matches; }
         var meta = document.createElement('meta');
         meta.name = 'viewport';
         meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover';
@@ -227,11 +236,25 @@
         // iPhone の Safari で開いたときだけ、ホーム画面に追加する案内を少しのあいだ出す
         if (/iPhone|iPad|iPod/i.test(navigator.userAgent) && !window.navigator.standalone && !window.matchMedia('(display-mode: fullscreen), (display-mode: standalone)').matches) {
           var tip = document.querySelector("#home-tip");
-          tip.style.display = "block";
+          tip.style.display = "none";   // 10/24：「全画面にする」ボタンと案内にまとめた（重ならないように）
           tip.onclick = function () { tip.style.display = "none"; };
-          setTimeout(function () { tip.style.display = "none"; }, 12000);
+          
         }
         canvas.className = "unity-mobile";
+        // 10/24：全画面ボタン（ホーム画面から開いたときは出さない）。Android などはそのまま全画面に、iPhone はやり方を案内
+        if (!isStandaloneNow()) {
+          var fsb = document.querySelector("#fs-btn"), fsh = document.querySelector("#fs-help");
+          var showFs = function () { if (isStandaloneNow() || document.fullscreenElement || document.webkitFullscreenElement) return; fsb.style.display = "block"; clearTimeout(fsb._t); fsb._t = setTimeout(function () { fsb.style.display = "none"; }, 10000); };
+          fsb.onclick = function (e) {
+            e.stopPropagation(); fsb.style.display = "none";
+            var el = document.documentElement, rq = el.requestFullscreen || el.webkitRequestFullscreen;
+            if (rq && !/iPhone|iPod/i.test(navigator.userAgent)) { try { var r = rq.call(el); if (r && r.catch) r.catch(function () { fsh.style.display = "block"; }); } catch (err) { fsh.style.display = "block"; } }
+            else fsh.style.display = "block";
+          };
+          fsh.onclick = function () { fsh.style.display = "none"; };
+          showFs();
+          window.addEventListener("orientationchange", function () { setTimeout(showFs, 600); });
+        }
         // 10/17 不具合：iPhone では画面のいちばん下の帯（Safari の下のバー・ホームバー）にタップが届かない。
         // ゲームの画面を、実際に見えている高さ（visualViewport）にぴったり合わせる。
         // 10/17：全画面（バーが隠れた状態・ホーム画面から開いた状態）でも、画面の一番下まで指が届くように
@@ -241,16 +264,20 @@
         var fitViewport = function () {
           var vv = window.visualViewport;
           var cont = document.querySelector("#unity-container");
-          var hgt = Math.max(window.innerHeight, document.documentElement.clientHeight, vv ? vv.height : 0);
+          // 10/24：ブラウザのバーの下に隠れないよう、ふだんは「実際に見えている高さ」に合わせる
+          var hgt = isStandalone ? Math.max(window.innerHeight, document.documentElement.clientHeight, vv ? vv.height : 0)
+                                 : (vv ? Math.min(vv.height, window.innerHeight) : window.innerHeight);
           var top = 0;
           if (isStandalone) {
             var land = window.innerWidth > window.innerHeight;
             var full = land ? Math.min(screen.width, screen.height) : Math.max(screen.width, screen.height);
             if (full > hgt) hgt = full;
-          } else if (vv && vv.offsetTop > 0 && vv.height < window.innerHeight - 1) {
-            top = vv.offsetTop; hgt = vv.height;   // ピンチなどで動いたときだけ合わせる
+          } else if (vv && vv.offsetTop > 0) {
+            top = vv.offsetTop;   // ピンチなどで動いたときだけ合わせる
           }
-          var key = top + "/" + hgt;
+          cont.style.width = (vv ? Math.min(vv.width, window.innerWidth) : window.innerWidth) + "px";
+          cont.style.left = (vv ? vv.offsetLeft : 0) + "px";
+          var key = top + "/" + hgt + "/" + cont.style.width;
           if (key === lastFit) return;
           lastFit = key;
           cont.style.top = top + "px";
