@@ -27,6 +27,11 @@
       #fs-help b { color: #f2c94c; }
       #inapp { position: fixed; inset: 0; z-index: 80; display: none; background: #05091e; color: #fff; font: 16px/1.7 sans-serif; }
       #inapp div { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: min(88vw, 440px); text-align: center; }
+      #inapp button#inapp-rotate { background: #f2c94c; color: #05091e; font-size: 17px; padding: 12px 18px; }
+      /* 10/25：横向きモード（アプリ内ブラウザで縦に固定されていても、ゲームを90度まわして遊べる） */
+      #rot-ctl { position: absolute; left: 50%; top: 4px; transform: translateX(-50%); z-index: 40; display: none; white-space: nowrap; opacity: 1; transition: opacity .6s; }
+      #rot-ctl.dim { opacity: 0; pointer-events: none; }   /* 10/25：ゲームの表示と重ねないよう、数秒で消す（画面がまた表に出たときに再表示） */
+      #rot-ctl button { font: bold 12px/1 sans-serif; margin: 0 3px; padding: 6px 10px; border-radius: 14px; border: 1px solid #f2c94c; background: rgba(10,16,40,.8); color: #fff; }
       #inapp b { color: #f2c94c; } #inapp button { font: bold 16px sans-serif; margin: 8px 4px; padding: 10px 16px; border-radius: 20px; border: 1px solid #f2c94c; background: #1b2a5a; color: #fff; }
     </style>
   </head>
@@ -46,8 +51,10 @@
       <div id="unity-warning"> </div>
       <div id="inapp"><div><b>アプリ内のブラウザでは、横向きで遊べません</b><br><br>
         右上（または右下）の <b>「…」</b> を押して、<br><b>「ブラウザで開く」</b>（Safari・Chrome）を選んでください。<br><br>
+        <button id="inapp-rotate">横向きにして遊ぶ（スマホを横に持ってください）</button><br>
         <button id="inapp-copy">URLをコピー</button><button id="inapp-close">このまま開く</button><br>
         <small>Please open this page in Safari or Chrome to play in landscape.</small></div></div>
+      <div id="rot-ctl"><button id="rot-flip">↻ 上下さかさま</button><button id="rot-exit">縦に戻す</button></div>
       <div id="fs-btn">⛶ 全画面にする</div>
       <div id="fs-help"><div><b>iPhone で全画面にするには</b><br>1. 下（または上）の <b>共有ボタン</b> を押す<br>2. <b>「ホーム画面に追加」</b> を押す<br>3. ホーム画面にできた「だんじりGP」から開く<br><br>バーがなくなり、画面いっぱいで遊べます。<br>記録はそのまま引き継がれます（念のため「蔵の札」も控えておくと安心）。<br><br><small>タップで閉じる</small></div></div>
       <div id="home-tip">iPhoneの方へ：<b>共有ボタン →「ホーム画面に追加」</b>から開くと、全画面で遊べます（左下のボタンも押しやすくなります）<br><small>タップで閉じる</small></div>
@@ -231,6 +238,11 @@
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         // Mobile device style: fill the whole browser client area with the game canvas:
 
+        // 10/25：横向きモードの状態。pref = 選んだ向き（90 / 270、0 は使わない）。on = いま実際にまわしているか
+        var rot = window.__djRot = { inApp: /Twitter|FBAN|FBAV|Instagram|Line\/|TikTok|musical_ly|BytedanceWebview/i.test(navigator.userAgent || ""), pref: 0, on: false, deg: 90, cx: 0, cy: 0, w: 0, h: 0 };
+        try { var rp = parseInt(window.localStorage.getItem("djgp_rotate") || "0", 10); if (rp === 90 || rp === 270) rot.pref = rp; } catch (e) {}
+        rot.want = function () { return rot.inApp && rot.pref > 0 && window.innerHeight > window.innerWidth; };
+
         // 10/25：X・LINE・Instagram などアプリの中のブラウザは横向きにできない → ふつうのブラウザで開く案内（LINE は自動で外へ）
         (function () {
           var ua = navigator.userAgent || "";
@@ -239,8 +251,10 @@
           }
           if (!/Twitter|FBAN|FBAV|Instagram|Line\/|TikTok|musical_ly|BytedanceWebview/i.test(ua)) return;
           var box = document.querySelector("#inapp");
-          var show = function () { var on = window.innerHeight > window.innerWidth && !box._closed; box.style.display = on ? "block" : "none"; if (on) { var f = document.querySelector("#fs-btn"); if (f) f.style.display = "none"; } };
+          var show = function () { var on = window.innerHeight > window.innerWidth && !box._closed && !rot.pref; box.style.display = on ? "block" : "none"; if (on) { var f = document.querySelector("#fs-btn"); if (f) f.style.display = "none"; } };
           document.querySelector("#inapp-close").onclick = function () { box._closed = true; show(); };
+          document.querySelector("#inapp-rotate").onclick = function () { if (window.__djRotSet) window.__djRotSet(90); show(); };
+          rot.showBox = show;
           document.querySelector("#inapp-copy").onclick = function () {
             var u = location.href.split("#")[0], b = this;
             try { navigator.clipboard.writeText(u).then(function () { b.textContent = "コピーしました"; }); } catch (e) { prompt("URL", u); }
@@ -264,7 +278,7 @@
         // 10/24：全画面ボタン（ホーム画面から開いたときは出さない）。Android などはそのまま全画面に、iPhone はやり方を案内
         if (!isStandaloneNow()) {
           var fsb = document.querySelector("#fs-btn"), fsh = document.querySelector("#fs-help");
-          var showFs = function () { if (isStandaloneNow() || document.fullscreenElement || document.webkitFullscreenElement) return; fsb.style.display = "block"; clearTimeout(fsb._t); fsb._t = setTimeout(function () { fsb.style.display = "none"; }, 10000); };
+          var showFs = function () { if (rot.want() || isStandaloneNow() || document.fullscreenElement || document.webkitFullscreenElement) return; fsb.style.display = "block"; clearTimeout(fsb._t); fsb._t = setTimeout(function () { fsb.style.display = "none"; }, 10000); };
           fsb.onclick = function (e) {
             e.stopPropagation(); fsb.style.display = "none";
             var el = document.documentElement, rq = el.requestFullscreen || el.webkitRequestFullscreen;
@@ -295,6 +309,22 @@
           } else if (vv && vv.offsetTop > 0) {
             top = vv.offsetTop;   // ピンチなどで動いたときだけ合わせる
           }
+          // 10/25：横向きモード。見えている範囲（幅W×高さH）の中心を軸に、ゲームの箱を「横H×縦W」にして90度まわす
+          rot.on = rot.want();
+          if (rot.on) {
+            var W = vv ? Math.min(vv.width, window.innerWidth) : window.innerWidth, H = hgt, L = vv ? vv.offsetLeft : 0;
+            var rkey = "R" + rot.pref + "/" + L + "/" + top + "/" + W + "/" + H;
+            if (rkey === lastFit) return;
+            lastFit = rkey;
+            rot.deg = rot.pref; rot.w = H; rot.h = W; rot.cx = L + W / 2; rot.cy = top + H / 2;
+            cont.style.width = H + "px"; cont.style.height = W + "px";
+            cont.style.left = (L + (W - H) / 2) + "px"; cont.style.top = (top + (H - W) / 2) + "px"; cont.style.bottom = "auto";
+            cont.style.transformOrigin = "50% 50%"; cont.style.transform = "rotate(" + rot.deg + "deg)";
+            var fb = document.querySelector("#fs-btn"); if (fb) fb.style.display = "none";
+            window.scrollTo(0, 0);
+            return;
+          }
+          if (cont.style.transform) { cont.style.transform = ""; lastFit = ""; }
           cont.style.width = (vv ? Math.min(vv.width, window.innerWidth) : window.innerWidth) + "px";
           cont.style.left = (vv ? vv.offsetLeft : 0) + "px";
           var key = top + "/" + hgt + "/" + cont.style.width;
@@ -312,6 +342,87 @@
         window.addEventListener("resize", fitViewport);
         window.addEventListener("orientationchange", function () { setTimeout(fitViewport, 300); setTimeout(fitViewport, 900); });
         setInterval(fitViewport, 400);
+
+        // 10/25：横向きモードの「指の位置の読みかえ」。
+        // Unity は touch / mouse の clientX・clientY から canvas.getBoundingClientRect() の左上を引いて位置を出す。
+        // 画面をCSSでまわすとこれがずれるので、座標を「まわす前の箱の中の位置」として読めるように直し、
+        // canvas の getBoundingClientRect も「まわす前の箱」（左上0,0・横長の大きさ）を返すようにする。
+        (function () {
+          var map = function (sx, sy) {
+            var dx, dy;
+            if (rot.deg === 270) { dx = rot.cy - sy; dy = sx - rot.cx; } else { dx = sy - rot.cy; dy = rot.cx - sx; }
+            return [rot.w / 2 + dx, rot.h / 2 + dy];
+          };
+          // Chrome などはイベントが届く要素ごとに Touch を作り直すので、1つずつ書きかえるのではなく
+          // Touch / MouseEvent（PointerEvent もふくむ）の「座標の読み口」そのものを、まわしているときだけ読みかえる
+          var protoGet = function (P, k) { try { var d = P && Object.getOwnPropertyDescriptor(P, k); return d && d.configurable && d.get; } catch (e) { return null; } };
+          var patchProto = function (P, keys) {
+            var gx = protoGet(P, "clientX"), gy = protoGet(P, "clientY");
+            if (!gx || !gy) return false;
+            try {
+              keys.forEach(function (k, i) {
+                var og = protoGet(P, k); if (!og) return;
+                Object.defineProperty(P, k, { configurable: true, enumerable: true, get: function () {
+                  if (!rot.on) return og.call(this);
+                  return map(gx.call(this), gy.call(this))[i % 2];
+                } });
+              });
+              return true;
+            } catch (e) { return false; }
+          };
+          var okT = patchProto(window.Touch && window.Touch.prototype, ["clientX", "clientY", "pageX", "pageY"]);
+          var okM = patchProto(window.MouseEvent && window.MouseEvent.prototype, ["clientX", "clientY", "pageX", "pageY", "x", "y"]);
+          // 予備：読み口を書きかえられない古いブラウザでは、イベントごとに書きかえる（window と canvas の両方で、Unity より先に）
+          var defXY = function (obj, keys) {
+            var rx = obj.clientX, ry = obj.clientY, m = map(rx, ry);
+            try { keys.forEach(function (k, i) { Object.defineProperty(obj, k, { configurable: true, value: m[i % 2] }); }); obj.__djRot = 1; } catch (e) {}
+          };
+          var patchList = function (l) { if (l) for (var i = 0; i < l.length; i++) if (l[i] && !l[i].__djRot) defXY(l[i], ["clientX", "clientY", "pageX", "pageY"]); };
+          var onTouch = function (e) { if (!rot.on) return; patchList(e.touches); patchList(e.changedTouches); patchList(e.targetTouches); };
+          var onMouse = function (e) { if (!rot.on || e.__djRot) return; defXY(e, ["clientX", "clientY", "pageX", "pageY", "x", "y"]); };
+          [window, canvas].forEach(function (tg) {
+            if (!okT) ["touchstart", "touchmove", "touchend", "touchcancel"].forEach(function (t) { tg.addEventListener(t, onTouch, { capture: true, passive: true }); });
+            if (!okM) ["mousedown", "mousemove", "mouseup", "click", "dblclick", "contextmenu", "wheel", "pointerdown", "pointermove", "pointerup", "pointercancel"].forEach(function (t) { tg.addEventListener(t, onMouse, { capture: true, passive: true }); });
+          });
+          rot.patched = (okT ? "T" : "t") + (okM ? "M" : "m");
+          // canvas の位置と大きさ：まわしているときは「まわす前の箱」として答える（Unity は大きさもここから読む）
+          var origRect = canvas.getBoundingClientRect;
+          canvas.getBoundingClientRect = function () {
+            if (!rot.on) return origRect.call(this);
+            var w = this.clientWidth, h = this.clientHeight;
+            return { left: 0, top: 0, x: 0, y: 0, right: w, bottom: h, width: w, height: h, toJSON: function () { return this; } };
+          };
+          // 上下さかさま・縦に戻すボタン（ゲームといっしょにまわるので、横に持ったときに読める向きになる）
+          var ctl = document.querySelector("#rot-ctl"), dimT = 0;
+          var wake = function () { ctl.classList.remove("dim"); clearTimeout(dimT); dimT = setTimeout(function () { ctl.classList.add("dim"); }, 6000); };
+          // ゲームが body に直接出すオープニング動画の箱（window.__djPV.box）も、ゲームといっしょにまわす
+          var fixPV = function () {
+            var pv = window.__djPV, el = pv && pv.box;
+            if (!el || !el.parentNode) return;
+            var k = rot.on ? rot.deg + "/" + rot.w + "/" + rot.h + "/" + rot.cx + "/" + rot.cy : "off";
+            if (el.__djRotKey === k) return;
+            el.__djRotKey = k;
+            if (rot.on) {
+              el.style.width = rot.w + "px"; el.style.height = rot.h + "px";
+              el.style.left = (rot.cx - rot.w / 2) + "px"; el.style.top = (rot.cy - rot.h / 2) + "px";
+              el.style.transformOrigin = "50% 50%"; el.style.transform = "rotate(" + rot.deg + "deg)";
+            } else {
+              el.style.width = "100vw"; el.style.height = "100vh"; el.style.left = "0"; el.style.top = "0"; el.style.transform = "";
+            }
+          };
+          try { new MutationObserver(fixPV).observe(document.body, { childList: true }); } catch (e) {}
+          var sync = function () { fixPV(); var s = rot.on ? "block" : "none"; if (ctl.style.display !== s) { ctl.style.display = s; if (rot.on) wake(); } };
+          window.__djRotSet = function (deg) {
+            rot.pref = deg === 90 || deg === 270 ? deg : 0;
+            try { if (rot.pref) window.localStorage.setItem("djgp_rotate", String(rot.pref)); else window.localStorage.removeItem("djgp_rotate"); } catch (e) {}
+            lastFit = ""; fitViewport(); sync();
+            if (rot.showBox) rot.showBox();
+          };
+          document.addEventListener("visibilitychange", function () { if (!document.hidden && rot.on) wake(); });
+          document.querySelector("#rot-flip").onclick = function (e) { e.stopPropagation(); wake(); window.__djRotSet(rot.pref === 90 ? 270 : 90); };
+          document.querySelector("#rot-exit").onclick = function (e) { e.stopPropagation(); window.__djRotSet(0); };
+          sync(); setInterval(sync, 400);
+        })();
 
         // 10/17 裁定：スマホが熱くなる・重い → 見た目はそのままで軽く。
         // iPhone は画面の細かさが3倍で、ゲームを3倍×3倍＝9倍の点で描いていた。スマホの画面の大きさでは見分けがつかない
