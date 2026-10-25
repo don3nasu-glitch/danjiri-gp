@@ -25,6 +25,9 @@
       #fs-help div { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: min(86vw, 420px); background: #101a3a; color: #fff;
         font: 15px/1.7 sans-serif; padding: 18px 20px; border-radius: 14px; border: 1px solid #f2c94c; }
       #fs-help b { color: #f2c94c; }
+      #inapp { position: fixed; inset: 0; z-index: 80; display: none; background: #05091e; color: #fff; font: 16px/1.7 sans-serif; }
+      #inapp div { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: min(88vw, 440px); text-align: center; }
+      #inapp b { color: #f2c94c; } #inapp button { font: bold 16px sans-serif; margin: 8px 4px; padding: 10px 16px; border-radius: 20px; border: 1px solid #f2c94c; background: #1b2a5a; color: #fff; }
     </style>
   </head>
   <body>
@@ -41,6 +44,10 @@
         </div>
       </div>
       <div id="unity-warning"> </div>
+      <div id="inapp"><div><b>アプリ内のブラウザでは、横向きで遊べません</b><br><br>
+        右上（または右下）の <b>「…」</b> を押して、<br><b>「ブラウザで開く」</b>（Safari・Chrome）を選んでください。<br><br>
+        <button id="inapp-copy">URLをコピー</button><button id="inapp-close">このまま開く</button><br>
+        <small>Please open this page in Safari or Chrome to play in landscape.</small></div></div>
       <div id="fs-btn">⛶ 全画面にする</div>
       <div id="fs-help"><div><b>iPhone で全画面にするには</b><br>1. 下（または上）の <b>共有ボタン</b> を押す<br>2. <b>「ホーム画面に追加」</b> を押す<br>3. ホーム画面にできた「だんじりGP」から開く<br><br>バーがなくなり、画面いっぱいで遊べます。<br>記録はそのまま引き継がれます（念のため「蔵の札」も控えておくと安心）。<br><br><small>タップで閉じる</small></div></div>
       <div id="home-tip">iPhoneの方へ：<b>共有ボタン →「ホーム画面に追加」</b>から開くと、全画面で遊べます（左下のボタンも押しやすくなります）<br><small>タップで閉じる</small></div>
@@ -179,12 +186,12 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/WebGL.loader.js?v=4b8ddbb20082";
+      var loaderUrl = buildUrl + "/WebGL.loader.js?v=18327479aaba";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/WebGL.data.unityweb?v=4b8ddbb20082",
-        frameworkUrl: buildUrl + "/WebGL.framework.js.unityweb?v=4b8ddbb20082",
-        codeUrl: buildUrl + "/WebGL.wasm.unityweb?v=4b8ddbb20082",
+        dataUrl: buildUrl + "/WebGL.data.unityweb?v=18327479aaba",
+        frameworkUrl: buildUrl + "/WebGL.framework.js.unityweb?v=18327479aaba",
+        codeUrl: buildUrl + "/WebGL.wasm.unityweb?v=18327479aaba",
         streamingAssetsUrl: "StreamingAssets",
         cacheControl: function (url) { return "no-store"; },
 
@@ -224,6 +231,22 @@
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         // Mobile device style: fill the whole browser client area with the game canvas:
 
+        // 10/25：X・LINE・Instagram などアプリの中のブラウザは横向きにできない → ふつうのブラウザで開く案内（LINE は自動で外へ）
+        (function () {
+          var ua = navigator.userAgent || "";
+          if (/ Line\//i.test(ua) && location.search.indexOf("openExternalBrowser=1") < 0) {
+            location.replace(location.href + (location.search ? "&" : "?") + "openExternalBrowser=1"); return;
+          }
+          if (!/Twitter|FBAN|FBAV|Instagram|Line\/|TikTok|musical_ly|BytedanceWebview/i.test(ua)) return;
+          var box = document.querySelector("#inapp");
+          var show = function () { var on = window.innerHeight > window.innerWidth && !box._closed; box.style.display = on ? "block" : "none"; if (on) { var f = document.querySelector("#fs-btn"); if (f) f.style.display = "none"; } };
+          document.querySelector("#inapp-close").onclick = function () { box._closed = true; show(); };
+          document.querySelector("#inapp-copy").onclick = function () {
+            var u = location.href.split("#")[0], b = this;
+            try { navigator.clipboard.writeText(u).then(function () { b.textContent = "コピーしました"; }); } catch (e) { prompt("URL", u); }
+          };
+          show(); window.addEventListener("resize", show);
+        })();
         function isStandaloneNow() { return !!window.navigator.standalone || window.matchMedia('(display-mode: fullscreen), (display-mode: standalone)').matches; }
         var meta = document.createElement('meta');
         meta.name = 'viewport';
