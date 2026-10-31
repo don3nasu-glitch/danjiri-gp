@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <base href="../">
+    <script>
+      // 10/31 試し版：本番のセーブと混ぜない（この窓の localStorage の鍵は、頭に tune_ をつける）
+      (function () { try { var P = 'tune_', S = Storage.prototype, g = S.getItem, st = S.setItem, rm = S.removeItem;
+        function k(x) { x = String(x); return x.indexOf(P) === 0 ? x : P + x; }
+        S.getItem = function (x) { return g.call(this, k(x)); }; S.setItem = function (x, v) { return st.call(this, k(x), v); }; S.removeItem = function (x) { return rm.call(this, k(x)); };
+        window.__djTune = 1; } catch (e) {} })();
+    </script>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>だんじりGP 試し版（頼んまっさの強さ）</title>
+    <meta name="description" content="だんじりGP - ムーンステップサーガ。泉州の町を地車で駆ける、祭り×レースゲーム（試遊版）。">
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <!-- ホーム画面に追加すると、Safari のバー（左下の戻るボタンなど）が出ない全画面で遊べる -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="TemplateData/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="だんじりGP">
+    <style>
+      /* 10/31 裁定（編集長「ずっとロード画面のときがある」）：読み込みの進み（％）と、止まったときの案内（日本語・英語） */
+      #dj-load-text { position: absolute; left: 50%; top: calc(50% + 74px); transform: translateX(-50%); width: min(90vw, 520px); text-align: center;
+        color: #fff; font: bold 15px/1.6 sans-serif; text-shadow: 0 1px 3px #000; pointer-events: none; }
+      #dj-load-text small { font-weight: normal; opacity: .8; }
+      #dj-stall { position: fixed; inset: 0; z-index: 90; display: none; background: rgba(5,9,30,.94); color: #fff; font: 15px/1.7 sans-serif; }
+      #dj-stall div { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: min(88vw, 460px); text-align: center; }
+      #dj-stall b { color: #f2c94c; }
+      #dj-stall button { background: #f2c94c; color: #05091e; font: bold 17px sans-serif; padding: 12px 22px; border: 0; border-radius: 12px; margin-top: 14px; }
+      #home-tip { position: fixed; left: 50%; top: 8px; transform: translateX(-50%); z-index: 50; display: none;
+        background: rgba(10,16,40,0.92); color: #fff; font: bold 14px/1.5 sans-serif; padding: 8px 14px; border-radius: 12px;
+        border: 1px solid #f2c94c; max-width: 92vw; text-align: center; }
+      #home-tip b { color: #f2c94c; }
+      #fs-btn { position: fixed; left: 50%; top: calc(12px + env(safe-area-inset-top)); transform: translateX(-50%); z-index: 60; display: none;
+        background: rgba(10,16,40,0.85); color: #fff; font: bold 15px/1 sans-serif; padding: 10px 16px; border-radius: 22px; border: 1px solid #f2c94c; }
+      #fs-help { position: fixed; inset: 0; z-index: 70; display: none; background: rgba(0,0,0,.7); }
+      #fs-help div { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: min(86vw, 420px); background: #101a3a; color: #fff;
+        font: 15px/1.7 sans-serif; padding: 18px 20px; border-radius: 14px; border: 1px solid #f2c94c; }
+      #fs-help b { color: #f2c94c; }
+      #inapp { position: fixed; inset: 0; z-index: 80; display: none; background: #05091e; color: #fff; font: 16px/1.7 sans-serif; }
+      #inapp div { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: min(88vw, 440px); text-align: center; }
+      #inapp button#inapp-rotate { background: #f2c94c; color: #05091e; font-size: 17px; padding: 12px 18px; }
+      /* 10/25：横向きモード（アプリ内ブラウザで縦に固定されていても、ゲームを90度まわして遊べる） */
+      #rot-ctl { position: absolute; left: 50%; top: 4px; transform: translateX(-50%); z-index: 40; display: none; white-space: nowrap; opacity: 1; transition: opacity .6s; }
+      #rot-ctl.dim { opacity: 0; pointer-events: none; }   /* 10/25：ゲームの表示と重ねないよう、数秒で消す（画面がまた表に出たときに再表示） */
+      #rot-ctl button { font: bold 12px/1 sans-serif; margin: 0 3px; padding: 6px 10px; border-radius: 14px; border: 1px solid #f2c94c; background: rgba(10,16,40,.8); color: #fff; }
+      #inapp b { color: #f2c94c; } #inapp button { font: bold 16px sans-serif; margin: 8px 4px; padding: 10px 16px; border-radius: 20px; border: 1px solid #f2c94c; background: #1b2a5a; color: #fff; }
+    </style>
+  </head>
+  <body>
+    <div id="unity-container" class="unity-desktop">
+      <div id="unity-fullscreen-container">
+        <canvas id="unity-canvas" width="960" height="600" tabindex="-1"></canvas>
+        <div id="unity-loading-container">
+          <div id="unity-loading-bar">
+            <div id="unity-logo"></div>
+            <div id="unity-progress-bar-empty">
+              <div id="unity-progress-bar-full"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="unity-warning"> </div>
+      <div id="dj-stall"><div><b>読み込みが止まってしまいました</b><br>通信が混んでいるか、スマホのメモリが足りなくなったようです。<br>ほかのアプリやタブを閉じてから、もう一度読み込んでください。<br>
+        <small>Loading stopped. The network may be busy or the phone ran low on memory.<br>Close other apps or tabs, then reload.</small><br>
+        <button id="dj-stall-reload">もう一度読み込む / Reload</button></div></div>
+      <div id="inapp"><div><b>アプリ内のブラウザでは、横向きで遊べません</b><br><br>
+        右上（または右下）の <b>「…」</b> を押して、<br><b>「ブラウザで開く」</b>（Safari・Chrome）を選んでください。<br><br>
+        <button id="inapp-rotate">横向きにして遊ぶ（スマホを横に持ってください）</button><br>
+        <button id="inapp-copy">URLをコピー</button><button id="inapp-close">このまま開く</button><br>
+        <small>Please open this page in Safari or Chrome to play in landscape.<br>(Tap “…” → “Open in browser”.)</small></div></div>
+      <div id="rot-ctl"><button id="rot-flip">↻ 上下さかさま</button><button id="rot-exit">縦に戻す</button></div>
+      <div id="fs-btn">⛶ 全画面にする</div>
+      <div id="fs-help"><div><b>iPhone で全画面にするには</b><br>1. 下（または上）の <b>共有ボタン</b> を押す<br>2. <b>「ホーム画面に追加」</b> を押す<br>3. ホーム画面にできた「だんじりGP」から開く<br><br>バーがなくなり、画面いっぱいで遊べます。<br>記録はそのまま引き継がれます（念のため「蔵の札」も控えておくと安心）。<br><br><small>タップで閉じる</small></div></div>
+      <div id="home-tip">iPhoneの方へ：<b>共有ボタン →「ホーム画面に追加」</b>から開くと、全画面で遊べます（左下のボタンも押しやすくなります）<br><small>タップで閉じる</small></div>
+      <div id="unity-footer">
+        <div id="unity-logo-title-footer"></div>
+        <div id="unity-fullscreen-button"></div>
+        <div id="unity-build-title">だんじりGP</div>
+      </div>
+    </div>
+    <script>
+    // 10/18 裁定（不具合）：音が大きくなったり小さくなったりする・ナレーターが聞こえないことがある。
+    // 音の交通整理：ゲームの音（Unity）はすべて「ゲームの通り道」（コンプレッサー＋上限 -16dB）へ集めて大きさをそろえる。
+    // ナレーターの声は「声の通り道」（強めにそろえて底上げ、上限 -1.5dB）。声が鳴っている間はゲームの音をなめらかに下げる。
+    (function () {
+      var AN = window.AudioNode, AD = window.AudioDestinationNode;
+      if (!AN || !AN.prototype || !AN.prototype.connect || !AD) return;
+      var orig = AN.prototype.connect, buses = [];
+      var busFor = function (ctx) {
+        for (var i = 0; i < buses.length; i++) if (buses[i].ctx === ctx) return buses[i];
+        var b = { ctx: ctx };
+        b.game = ctx.createGain();
+        var gc = ctx.createDynamicsCompressor();
+        gc.threshold.value = -24; gc.knee.value = 8; gc.ratio.value = 6; gc.attack.value = 0.005; gc.release.value = 0.3;
+        var gm = ctx.createGain(); gm.gain.value = 0.55;
+        var gl = ctx.createDynamicsCompressor();
+        gl.threshold.value = -16; gl.knee.value = 0; gl.ratio.value = 20; gl.attack.value = 0.001; gl.release.value = 0.12;
+        orig.call(b.game, gc); orig.call(gc, gm); orig.call(gm, gl); orig.call(gl, ctx.destination);
+        var vc = ctx.createDynamicsCompressor();
+        vc.threshold.value = -38; vc.knee.value = 6; vc.ratio.value = 12; vc.attack.value = 0.002; vc.release.value = 0.15;
+        var vm = ctx.createGain(); vm.gain.value = 3.2;
+        var vl = ctx.createDynamicsCompressor();
+        vl.threshold.value = -1.5; vl.knee.value = 0; vl.ratio.value = 20; vl.attack.value = 0.001; vl.release.value = 0.08;
+        orig.call(vc, vm); orig.call(vm, vl); orig.call(vl, ctx.destination);
+        b.voice = vc; b.gameOut = gl; b.voiceOut = vl;
+        buses.push(b);
+        return b;
+      };
+      AN.prototype.connect = function (dest) {
+        try {
+          if (dest instanceof AD) {
+            var b = busFor(dest.context);
+            var args = Array.prototype.slice.call(arguments); args[0] = b.game;
+            return orig.apply(this, args);
+          }
+        } catch (e) {}
+        return orig.apply(this, arguments);
+      };
+      window.__djAudio = {
+        bus: busFor,
+        duck: function (ctx, on) {
+          try {
+            var g = busFor(ctx).game.gain, t = ctx.currentTime;
+            g.cancelScheduledValues(t); g.setValueAtTime(g.value, t);
+            g.setTargetAtTime(on ? 0.5 : 1.0, t, on ? 0.08 : 0.5);
+          } catch (e) {}
+        }
+      };
+    })();
+  </script>
+    <script>
+      // 10/18 裁定：セーブの二重保存。iPhoneアプリ版では、本体の保存場所（Capacitor Preferences）に置いた記録を先に読み戻しておく
+      (function () {
+        try {
+          var cap = window.Capacitor, pref = cap && cap.Plugins && cap.Plugins.Preferences;
+          if (pref && pref.get) pref.get({ key: 'djgp_save' }).then(function (r) {
+            if (r && r.value) { window.__djgpSave = r.value; try { if (!window.localStorage.getItem('djgp_save')) window.localStorage.setItem('djgp_save', r.value); } catch (e) {} }
+          }).catch(function () {});
+          // 10/23 裁定（編集長）：セーブは最重要。蔵の控え（全部入りの記録）も同じく読み戻す
+          if (pref && pref.get) pref.get({ key: 'djgp_vault' }).then(function (r) {
+            if (r && r.value) { try { if (!window.localStorage.getItem('djgp_vault')) window.localStorage.setItem('djgp_vault', r.value); } catch (e) {} }
+          }).catch(function () {});
+          // 10/21：村のセーブ（おさいふ・借金・クエスト）も同じく読み戻す
+          if (pref && pref.get) pref.get({ key: 'djgp_village' }).then(function (r) {
+            if (r && r.value) { try { if (!window.localStorage.getItem('djgp_village')) window.localStorage.setItem('djgp_village', r.value); } catch (e) {} }
+          }).catch(function () {});
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // 10/17 不具合：iPhone のマナーモードで音楽・効果音が消える（実況だけ鳴る）。
+      // ページを開いたときから「メディア再生」として鳴らす。さらに最初にさわったとき無音の再生を流し続けて、マナーモードでも音が出るようにする。
+      (function () {
+        var setPlayback = function () { try { if (navigator.audioSession && navigator.audioSession.type !== 'playback') navigator.audioSession.type = 'playback'; } catch (e) {} };
+        setPlayback();
+        var silent = null;
+        var makeSilent = function () {
+          var rate = 8000, n = rate / 2, buf = new ArrayBuffer(44 + n), v = new DataView(buf);
+          var w = function (o, str) { for (var i = 0; i < str.length; i++) v.setUint8(o + i, str.charCodeAt(i)); };
+          w(0, 'RIFF'); v.setUint32(4, 36 + n, true); w(8, 'WAVE'); w(12, 'fmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+          v.setUint32(24, rate, true); v.setUint32(28, rate, true); v.setUint16(32, 1, true); v.setUint16(34, 8, true); w(36, 'data'); v.setUint32(40, n, true);
+          for (var i = 0; i < n; i++) v.setUint8(44 + i, 128);
+          var a = new Audio(URL.createObjectURL(new Blob([buf], { type: 'audio/wav' })));
+          a.loop = true; a.setAttribute('playsinline', ''); a.preload = 'auto';
+          return a;
+        };
+        var resumeUnity = function () {
+          try { if (typeof WEBAudio !== 'undefined' && WEBAudio.audioContext && WEBAudio.audioContext.state !== 'running' && WEBAudio.audioContext.state !== 'closed') WEBAudio.audioContext.resume(); } catch (e) {}
+        };
+        var unlock = function () {
+          setPlayback();
+          try { if (!silent) silent = makeSilent(); if (silent.paused) { var p = silent.play(); if (p && p.catch) p.catch(function () {}); } } catch (e) {}
+          resumeUnity();
+        };
+        ['touchstart', 'touchend', 'pointerdown', 'mousedown', 'keydown'].forEach(function (ev) { document.addEventListener(ev, unlock, true); });
+        document.addEventListener('visibilitychange', function () { if (!document.hidden) { setPlayback(); resumeUnity(); } });
+        setInterval(resumeUnity, 700);
+        // 実況の録音した声の一覧を、ページを開いた時点で読んでおく（レース開始直後から録音の声で話せるように）
+        try { fetch('voice/index.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (a) { if (a) window.__voiceIndex = a; }).catch(function () {}); } catch (e) {}
+      })();
+      let canvas = document.querySelector("#unity-canvas");
+      let fullscreenContainer = document.querySelector("#unity-fullscreen-container");
+
+      // Shows a temporary message banner/ribbon for a few seconds, or
+      // a permanent error message on top of the canvas if type=='error'.
+      // If type=='warning', a yellow highlight color is used.
+      // Modify or remove this function to customize the visually presented
+      // way that non-critical warnings and error messages are presented to the
+      // user.
+      function unityShowBanner(msg, type) {
+        var warningBanner = document.querySelector("#unity-warning");
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+        }
+        var div = document.createElement('div');
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type == 'error') div.style = 'background: red; padding: 10px;';
+        else {
+          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+          setTimeout(function() {
+            warningBanner.removeChild(div);
+            updateBannerVisibility();
+          }, 5000);
+        }
+        updateBannerVisibility();
+      }
+
+      var buildUrl = "tune/Build";
+      var loaderUrl = buildUrl + "/WebGL.loader.js?v=tea9f7a7b803";
+      var config = {
+        arguments: [],
+        dataUrl: buildUrl + "/WebGL.data.unityweb?v=tea9f7a7b803",
+        frameworkUrl: buildUrl + "/WebGL.framework.js.unityweb?v=tea9f7a7b803",
+        codeUrl: buildUrl + "/WebGL.wasm.unityweb?v=tea9f7a7b803",
+        streamingAssetsUrl: "StreamingAssets",
+        cacheControl: function (url) { return "no-store"; },
+
+        // If you have a custom web site structure, or want to place multiple Unity build instances on the same page,
+        // you can pass fullscreenElementID: "my-unity-fullscreen-container-id", in this configuration field to
+        // explicitly point to the element tree root that is displayed in fullscreen mode.
+        fullscreenElementID: "unity-fullscreen-container",
+
+        companyName: "Don Erika",
+        productName: "だんじりGP",
+        productVersion: "1.0.0",
+        showBanner: unityShowBanner,
+        // errorHandler: function(err, url, line) {
+        //    alert("error " + err + " occurred at line " + line);
+        //    // Return 'true' if you handled this error and don't want Unity
+        //    // to process it further, 'false' otherwise.
+        //    return true;
+        // },
+      };
+
+      // By default, Unity keeps WebGL canvas render target size matched with
+      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+      // Set this to false if you want to decouple this synchronization from
+      // happening inside the engine, and you would instead like to size up
+      // the canvas DOM size and WebGL render target sizes yourself.
+      // config.matchWebGLToCanvasSize = false;
+
+      // If you would like all file writes inside Unity Application.persistentDataPath
+      // directory to automatically persist so that the contents are remembered when
+      // the user revisits the site the next time, uncomment the following line:
+      // config.autoSyncPersistentDataPath = true;
+      // This autosyncing is currently not the default behavior to avoid regressing
+      // existing user projects that might rely on the earlier manual
+      // JS_FileSystem_Sync() behavior, but in future Unity version, this will be
+      // expected to change.
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        // Mobile device style: fill the whole browser client area with the game canvas:
+
+        // 10/25：横向きモードの状態。pref = 選んだ向き（90 / 270、0 は使わない）。on = いま実際にまわしているか
+        var rot = window.__djRot = { inApp: /Twitter|FBAN|FBAV|Instagram|Line\/|TikTok|musical_ly|BytedanceWebview/i.test(navigator.userAgent || ""), pref: 0, on: false, deg: 90, cx: 0, cy: 0, w: 0, h: 0 };
+        try { var rp = parseInt(window.localStorage.getItem("djgp_rotate") || "0", 10); if (rp === 90 || rp === 270) rot.pref = rp; } catch (e) {}
+        rot.want = function () { return rot.inApp && rot.pref > 0 && window.innerHeight > window.innerWidth; };
+
+        // 10/25：X・LINE・Instagram などアプリの中のブラウザは横向きにできない → ふつうのブラウザで開く案内（LINE は自動で外へ）
+        (function () {
+          var ua = navigator.userAgent || "";
+          if (/ Line\//i.test(ua) && location.search.indexOf("openExternalBrowser=1") < 0) {
+            location.replace(location.href + (location.search ? "&" : "?") + "openExternalBrowser=1"); return;
+          }
+          if (!/Twitter|FBAN|FBAV|Instagram|Line\/|TikTok|musical_ly|BytedanceWebview/i.test(ua)) return;
+          var box = document.querySelector("#inapp");
+          var show = function () { var on = window.innerHeight > window.innerWidth && !box._closed && !rot.pref; box.style.display = on ? "block" : "none"; if (on) { var f = document.querySelector("#fs-btn"); if (f) f.style.display = "none"; } };
+          document.querySelector("#inapp-close").onclick = function () { box._closed = true; show(); };
+          document.querySelector("#inapp-rotate").onclick = function () { if (window.__djRotSet) window.__djRotSet(90); show(); };
+          rot.showBox = show;
+          document.querySelector("#inapp-copy").onclick = function () {
+            var u = location.href.split("#")[0], b = this;
+            try { navigator.clipboard.writeText(u).then(function () { b.textContent = "コピーしました"; }); } catch (e) { prompt("URL", u); }
+          };
+          show(); window.addEventListener("resize", show);
+        })();
+        function isStandaloneNow() { return !!window.navigator.standalone || window.matchMedia('(display-mode: fullscreen), (display-mode: standalone)').matches; }
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover';
+        document.getElementsByTagName('head')[0].appendChild(meta);
+        document.querySelector("#unity-container").className = "unity-mobile";
+        // iPhone の Safari で開いたときだけ、ホーム画面に追加する案内を少しのあいだ出す
+        if (/iPhone|iPad|iPod/i.test(navigator.userAgent) && !window.navigator.standalone && !window.matchMedia('(display-mode: fullscreen), (display-mode: standalone)').matches) {
+          var tip = document.querySelector("#home-tip");
+          tip.style.display = "none";   // 10/24：「全画面にする」ボタンと案内にまとめた（重ならないように）
+          tip.onclick = function () { tip.style.display = "none"; };
+          
+        }
+        canvas.className = "unity-mobile";
+        // 10/24：全画面ボタン（ホーム画面から開いたときは出さない）。Android などはそのまま全画面に、iPhone はやり方を案内
+        if (!isStandaloneNow()) {
+          var fsb = document.querySelector("#fs-btn"), fsh = document.querySelector("#fs-help");
+          var showFs = function () { if (rot.want() || isStandaloneNow() || document.fullscreenElement || document.webkitFullscreenElement) return; fsb.style.display = "block"; clearTimeout(fsb._t); fsb._t = setTimeout(function () { fsb.style.display = "none"; }, 10000); };
+          fsb.onclick = function (e) {
+            e.stopPropagation(); fsb.style.display = "none";
+            var el = document.documentElement, rq = el.requestFullscreen || el.webkitRequestFullscreen;
+            if (rq && !/iPhone|iPod/i.test(navigator.userAgent)) { try { var r = rq.call(el); if (r && r.catch) r.catch(function () { fsh.style.display = "block"; }); } catch (err) { fsh.style.display = "block"; } }
+            else fsh.style.display = "block";
+          };
+          fsh.onclick = function () { fsh.style.display = "none"; };
+          showFs();
+          window.addEventListener("orientationchange", function () { setTimeout(showFs, 600); });
+        }
+        // 10/17 不具合：iPhone では画面のいちばん下の帯（Safari の下のバー・ホームバー）にタップが届かない。
+        // ゲームの画面を、実際に見えている高さ（visualViewport）にぴったり合わせる。
+        // 10/17：全画面（バーが隠れた状態・ホーム画面から開いた状態）でも、画面の一番下まで指が届くように
+        // 見えている高さを毎回はかり直して、ゲームの画面をそれにぴったり合わせる（バーの出入りは知らせが来ないことがあるので、少しずつ見張る）
+        var isStandalone = !!window.navigator.standalone || window.matchMedia('(display-mode: fullscreen), (display-mode: standalone)').matches;
+        var lastFit = "";
+        var fitViewport = function () {
+          var vv = window.visualViewport;
+          var cont = document.querySelector("#unity-container");
+          // 10/24：ブラウザのバーの下に隠れないよう、ふだんは「実際に見えている高さ」に合わせる
+          var hgt = isStandalone ? Math.max(window.innerHeight, document.documentElement.clientHeight, vv ? vv.height : 0)
+                                 : (vv ? Math.min(vv.height, window.innerHeight) : window.innerHeight);
+          var top = 0;
+          if (isStandalone) {
+            var land = window.innerWidth > window.innerHeight;
+            var full = land ? Math.min(screen.width, screen.height) : Math.max(screen.width, screen.height);
+            if (full > hgt) hgt = full;
+          } else if (vv && vv.offsetTop > 0) {
+            top = vv.offsetTop;   // ピンチなどで動いたときだけ合わせる
+          }
+          // 10/25：横向きモード。見えている範囲（幅W×高さH）の中心を軸に、ゲームの箱を「横H×縦W」にして90度まわす
+          rot.on = rot.want();
+          if (rot.on) {
+            var W = vv ? Math.min(vv.width, window.innerWidth) : window.innerWidth, H = hgt, L = vv ? vv.offsetLeft : 0;
+            var rkey = "R" + rot.pref + "/" + L + "/" + top + "/" + W + "/" + H;
+            if (rkey === lastFit) return;
+            lastFit = rkey;
+            rot.deg = rot.pref; rot.w = H; rot.h = W; rot.cx = L + W / 2; rot.cy = top + H / 2;
+            cont.style.width = H + "px"; cont.style.height = W + "px";
+            cont.style.left = (L + (W - H) / 2) + "px"; cont.style.top = (top + (H - W) / 2) + "px"; cont.style.bottom = "auto";
+            cont.style.transformOrigin = "50% 50%"; cont.style.transform = "rotate(" + rot.deg + "deg)";
+            var fb = document.querySelector("#fs-btn"); if (fb) fb.style.display = "none";
+            window.scrollTo(0, 0);
+            return;
+          }
+          if (cont.style.transform) { cont.style.transform = ""; lastFit = ""; }
+          cont.style.width = (vv ? Math.min(vv.width, window.innerWidth) : window.innerWidth) + "px";
+          cont.style.left = (vv ? vv.offsetLeft : 0) + "px";
+          var key = top + "/" + hgt + "/" + cont.style.width;
+          if (key === lastFit) return;
+          lastFit = key;
+          cont.style.top = top + "px";
+          cont.style.bottom = "auto";
+          cont.style.height = hgt + "px";
+          window.scrollTo(0, 0);
+        };
+        document.documentElement.style.cssText += ";height:100%;overflow:hidden;";
+        document.body.style.cssText += ";margin:0;height:100%;overflow:hidden;touch-action:none;overscroll-behavior:none;";
+        fitViewport();
+        if (window.visualViewport) { window.visualViewport.addEventListener("resize", fitViewport); window.visualViewport.addEventListener("scroll", fitViewport); }
+        window.addEventListener("resize", fitViewport);
+        window.addEventListener("orientationchange", function () { setTimeout(fitViewport, 300); setTimeout(fitViewport, 900); });
+        setInterval(fitViewport, 400);
+
+        // 10/25：横向きモードの「指の位置の読みかえ」。
+        // Unity は touch / mouse の clientX・clientY から canvas.getBoundingClientRect() の左上を引いて位置を出す。
+        // 画面をCSSでまわすとこれがずれるので、座標を「まわす前の箱の中の位置」として読めるように直し、
+        // canvas の getBoundingClientRect も「まわす前の箱」（左上0,0・横長の大きさ）を返すようにする。
+        (function () {
+          var map = function (sx, sy) {
+            var dx, dy;
+            if (rot.deg === 270) { dx = rot.cy - sy; dy = sx - rot.cx; } else { dx = sy - rot.cy; dy = rot.cx - sx; }
+            return [rot.w / 2 + dx, rot.h / 2 + dy];
+          };
+          // Chrome などはイベントが届く要素ごとに Touch を作り直すので、1つずつ書きかえるのではなく
+          // Touch / MouseEvent（PointerEvent もふくむ）の「座標の読み口」そのものを、まわしているときだけ読みかえる
+          var protoGet = function (P, k) { try { var d = P && Object.getOwnPropertyDescriptor(P, k); return d && d.configurable && d.get; } catch (e) { return null; } };
+          var patchProto = function (P, keys) {
+            var gx = protoGet(P, "clientX"), gy = protoGet(P, "clientY");
+            if (!gx || !gy) return false;
+            try {
+              keys.forEach(function (k, i) {
+                var og = protoGet(P, k); if (!og) return;
+                Object.defineProperty(P, k, { configurable: true, enumerable: true, get: function () {
+                  if (!rot.on) return og.call(this);
+                  return map(gx.call(this), gy.call(this))[i % 2];
+                } });
+              });
+              return true;
+            } catch (e) { return false; }
+          };
+          var okT = patchProto(window.Touch && window.Touch.prototype, ["clientX", "clientY", "pageX", "pageY"]);
+          var okM = patchProto(window.MouseEvent && window.MouseEvent.prototype, ["clientX", "clientY", "pageX", "pageY", "x", "y"]);
+          // 予備：読み口を書きかえられない古いブラウザでは、イベントごとに書きかえる（window と canvas の両方で、Unity より先に）
+          var defXY = function (obj, keys) {
+            var rx = obj.clientX, ry = obj.clientY, m = map(rx, ry);
+            try { keys.forEach(function (k, i) { Object.defineProperty(obj, k, { configurable: true, value: m[i % 2] }); }); obj.__djRot = 1; } catch (e) {}
+          };
+          var patchList = function (l) { if (l) for (var i = 0; i < l.length; i++) if (l[i] && !l[i].__djRot) defXY(l[i], ["clientX", "clientY", "pageX", "pageY"]); };
+          var onTouch = function (e) { if (!rot.on) return; patchList(e.touches); patchList(e.changedTouches); patchList(e.targetTouches); };
+          var onMouse = function (e) { if (!rot.on || e.__djRot) return; defXY(e, ["clientX", "clientY", "pageX", "pageY", "x", "y"]); };
+          [window, canvas].forEach(function (tg) {
+            if (!okT) ["touchstart", "touchmove", "touchend", "touchcancel"].forEach(function (t) { tg.addEventListener(t, onTouch, { capture: true, passive: true }); });
+            if (!okM) ["mousedown", "mousemove", "mouseup", "click", "dblclick", "contextmenu", "wheel", "pointerdown", "pointermove", "pointerup", "pointercancel"].forEach(function (t) { tg.addEventListener(t, onMouse, { capture: true, passive: true }); });
+          });
+          rot.patched = (okT ? "T" : "t") + (okM ? "M" : "m");
+          // canvas の位置と大きさ：まわしているときは「まわす前の箱」として答える（Unity は大きさもここから読む）
+          var origRect = canvas.getBoundingClientRect;
+          canvas.getBoundingClientRect = function () {
+            if (!rot.on) return origRect.call(this);
+            var w = this.clientWidth, h = this.clientHeight;
+            return { left: 0, top: 0, x: 0, y: 0, right: w, bottom: h, width: w, height: h, toJSON: function () { return this; } };
+          };
+          // 上下さかさま・縦に戻すボタン（ゲームといっしょにまわるので、横に持ったときに読める向きになる）
+          var ctl = document.querySelector("#rot-ctl"), dimT = 0;
+          var wake = function () { ctl.classList.remove("dim"); clearTimeout(dimT); dimT = setTimeout(function () { ctl.classList.add("dim"); }, 6000); };
+          // ゲームが body に直接出すオープニング動画の箱（window.__djPV.box）も、ゲームといっしょにまわす
+          var fixPV = function () {
+            var pv = window.__djPV, el = pv && pv.box;
+            if (!el || !el.parentNode) return;
+            var k = rot.on ? rot.deg + "/" + rot.w + "/" + rot.h + "/" + rot.cx + "/" + rot.cy : "off";
+            if (el.__djRotKey === k) return;
+            el.__djRotKey = k;
+            if (rot.on) {
+              el.style.width = rot.w + "px"; el.style.height = rot.h + "px";
+              el.style.left = (rot.cx - rot.w / 2) + "px"; el.style.top = (rot.cy - rot.h / 2) + "px";
+              el.style.transformOrigin = "50% 50%"; el.style.transform = "rotate(" + rot.deg + "deg)";
+            } else {
+              el.style.width = "100vw"; el.style.height = "100vh"; el.style.left = "0"; el.style.top = "0"; el.style.transform = "";
+            }
+          };
+          try { new MutationObserver(fixPV).observe(document.body, { childList: true }); } catch (e) {}
+          var sync = function () { fixPV(); var s = rot.on ? "block" : "none"; if (ctl.style.display !== s) { ctl.style.display = s; if (rot.on) wake(); } };
+          window.__djRotSet = function (deg) {
+            rot.pref = deg === 90 || deg === 270 ? deg : 0;
+            try { if (rot.pref) window.localStorage.setItem("djgp_rotate", String(rot.pref)); else window.localStorage.removeItem("djgp_rotate"); } catch (e) {}
+            lastFit = ""; fitViewport(); sync();
+            if (rot.showBox) rot.showBox();
+          };
+          document.addEventListener("visibilitychange", function () { if (!document.hidden && rot.on) wake(); });
+          document.querySelector("#rot-flip").onclick = function (e) { e.stopPropagation(); wake(); window.__djRotSet(rot.pref === 90 ? 270 : 90); };
+          document.querySelector("#rot-exit").onclick = function (e) { e.stopPropagation(); window.__djRotSet(0); };
+          sync(); setInterval(sync, 400);
+        })();
+
+        // 10/17 裁定：スマホが熱くなる・重い → 見た目はそのままで軽く。
+        // iPhone は画面の細かさが3倍で、ゲームを3倍×3倍＝9倍の点で描いていた。スマホの画面の大きさでは見分けがつかない
+        // 1.6倍までにおさえる（描く点の数がおよそ3分の1。熱と電池の減りが大きく下がる）
+        config.devicePixelRatio = Math.min(window.devicePixelRatio || 1, 1.6);
+
+
+      } else {
+        // Desktop style: Render the game canvas container in a window that can be maximized to fullscreen:
+        fullscreenContainer.style.width = "960px";
+        fullscreenContainer.style.height = "600px";
+      }
+
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      // 10/31 裁定（編集長「ずっとロード画面。タイトル画面すら見れない。再度開いたら見れた」）：
+      //  読み込みが 30 秒（仕上げの段は 70 秒）進まなければ、1回だけ自動で読み直す。2回目は案内とボタン（日本語・英語）。
+      //  失敗したときも、英語だけの小さな警告ではなく、同じ案内を出す。
+      var djDone = false, djLastP = -1, djLastT = Date.now();
+      var djStall = function () {
+        if (djDone) return;
+        var tried = false; try { tried = sessionStorage.getItem("djgp_retry") === "1"; } catch (e) { tried = true; }
+        if (!tried) { try { sessionStorage.setItem("djgp_retry", "1"); } catch (e) {} location.reload(); return; }
+        document.querySelector("#dj-stall").style.display = "block";
+      };
+      document.querySelector("#dj-stall-reload").onclick = function () { try { sessionStorage.removeItem("djgp_retry"); } catch (e) {} location.reload(); };
+      var djWatch = function () {
+        if (djDone) return;
+        var lim = djLastP < 0.9 ? 30000 : 70000;
+        if (Date.now() - djLastT > lim) { djStall(); return; }
+        setTimeout(djWatch, 2000);
+      };
+      setTimeout(djWatch, 2000);
+      document.addEventListener("visibilitychange", function () { if (!document.hidden) djLastT = Date.now(); });   // ほかのアプリへ行っていた間は数えない
+      var djText = document.createElement("div"); djText.id = "dj-load-text";
+      document.querySelector("#unity-loading-container").appendChild(djText);
+
+      script.onerror = function () { djStall(); };
+      script.onload = () => {
+        const loadingContainer = document.querySelector("#unity-loading-container");
+        const progressBarFull = document.querySelector("#unity-progress-bar-full");
+
+        createUnityInstance(canvas, config, (progress) => {
+          if (progress > djLastP + 0.002) { djLastP = progress; djLastT = Date.now(); }
+          if (progress < 1) {
+            loadingContainer.style.display = "block";
+            progressBarFull.style.width = 100 * progress + "%";
+            var pc = Math.floor(100 * progress);
+            djText.innerHTML = (progress < 0.9 ? "読み込み中 " + pc + "%　/　Loading " + pc + "%" : "準備中…　/　Getting ready...")
+              + "<br><small>はじめてと更新のあとは、少し時間がかかります / The first launch and updates take a little longer</small>";
+          } else {
+            loadingContainer.style.display = "none";
+          }
+        }).then((unityInstance) => {
+                djDone = true; try { sessionStorage.removeItem("djgp_retry"); } catch (e) {} window.__unity = unityInstance;
+                document.querySelector("#unity-fullscreen-button").onclick = () => {
+                  unityInstance.SetFullscreen(1);
+                };
+
+              }).catch((message) => {
+                console.error(message); djStall();
+              });
+            };
+
+      document.body.appendChild(script);
+
+    </script>
+  </body>
+</html>
