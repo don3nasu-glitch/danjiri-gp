@@ -15,6 +15,14 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="だんじりGP">
     <style>
+      /* 10/31 裁定（編集長「ずっとロード画面のときがある」）：読み込みの進み（％）と、止まったときの案内（日本語・英語） */
+      #dj-load-text { position: absolute; left: 50%; top: calc(50% + 74px); transform: translateX(-50%); width: min(90vw, 520px); text-align: center;
+        color: #fff; font: bold 15px/1.6 sans-serif; text-shadow: 0 1px 3px #000; pointer-events: none; }
+      #dj-load-text small { font-weight: normal; opacity: .8; }
+      #dj-stall { position: fixed; inset: 0; z-index: 90; display: none; background: rgba(5,9,30,.94); color: #fff; font: 15px/1.7 sans-serif; }
+      #dj-stall div { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: min(88vw, 460px); text-align: center; }
+      #dj-stall b { color: #f2c94c; }
+      #dj-stall button { background: #f2c94c; color: #05091e; font: bold 17px sans-serif; padding: 12px 22px; border: 0; border-radius: 12px; margin-top: 14px; }
       #home-tip { position: fixed; left: 50%; top: 8px; transform: translateX(-50%); z-index: 50; display: none;
         background: rgba(10,16,40,0.92); color: #fff; font: bold 14px/1.5 sans-serif; padding: 8px 14px; border-radius: 12px;
         border: 1px solid #f2c94c; max-width: 92vw; text-align: center; }
@@ -49,11 +57,14 @@
         </div>
       </div>
       <div id="unity-warning"> </div>
+      <div id="dj-stall"><div><b>読み込みが止まってしまいました</b><br>通信が混んでいるか、スマホのメモリが足りなくなったようです。<br>ほかのアプリやタブを閉じてから、もう一度読み込んでください。<br>
+        <small>Loading stopped. The network may be busy or the phone ran low on memory.<br>Close other apps or tabs, then reload.</small><br>
+        <button id="dj-stall-reload">もう一度読み込む / Reload</button></div></div>
       <div id="inapp"><div><b>アプリ内のブラウザでは、横向きで遊べません</b><br><br>
         右上（または右下）の <b>「…」</b> を押して、<br><b>「ブラウザで開く」</b>（Safari・Chrome）を選んでください。<br><br>
         <button id="inapp-rotate">横向きにして遊ぶ（スマホを横に持ってください）</button><br>
         <button id="inapp-copy">URLをコピー</button><button id="inapp-close">このまま開く</button><br>
-        <small>Please open this page in Safari or Chrome to play in landscape.</small></div></div>
+        <small>Please open this page in Safari or Chrome to play in landscape.<br>(Tap “…” → “Open in browser”.)</small></div></div>
       <div id="rot-ctl"><button id="rot-flip">↻ 上下さかさま</button><button id="rot-exit">縦に戻す</button></div>
       <div id="fs-btn">⛶ 全画面にする</div>
       <div id="fs-help"><div><b>iPhone で全画面にするには</b><br>1. 下（または上）の <b>共有ボタン</b> を押す<br>2. <b>「ホーム画面に追加」</b> を押す<br>3. ホーム画面にできた「だんじりGP」から開く<br><br>バーがなくなり、画面いっぱいで遊べます。<br>記録はそのまま引き継がれます（念のため「蔵の札」も控えておくと安心）。<br><br><small>タップで閉じる</small></div></div>
@@ -193,12 +204,12 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/WebGL.loader.js?v=1fe0cf9ee38a";
+      var loaderUrl = buildUrl + "/WebGL.loader.js?v=3b982889862f";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/WebGL.data.unityweb?v=1fe0cf9ee38a",
-        frameworkUrl: buildUrl + "/WebGL.framework.js.unityweb?v=1fe0cf9ee38a",
-        codeUrl: buildUrl + "/WebGL.wasm.unityweb?v=1fe0cf9ee38a",
+        dataUrl: buildUrl + "/WebGL.data.unityweb?v=3b982889862f",
+        frameworkUrl: buildUrl + "/WebGL.framework.js.unityweb?v=3b982889862f",
+        codeUrl: buildUrl + "/WebGL.wasm.unityweb?v=3b982889862f",
         streamingAssetsUrl: "StreamingAssets",
         cacheControl: function (url) { return "no-store"; },
 
@@ -439,24 +450,52 @@
 
       var script = document.createElement("script");
       script.src = loaderUrl;
+      // 10/31 裁定（編集長「ずっとロード画面。タイトル画面すら見れない。再度開いたら見れた」）：
+      //  読み込みが 30 秒（仕上げの段は 70 秒）進まなければ、1回だけ自動で読み直す。2回目は案内とボタン（日本語・英語）。
+      //  失敗したときも、英語だけの小さな警告ではなく、同じ案内を出す。
+      var djDone = false, djLastP = -1, djLastT = Date.now();
+      var djStall = function () {
+        if (djDone) return;
+        var tried = false; try { tried = sessionStorage.getItem("djgp_retry") === "1"; } catch (e) { tried = true; }
+        if (!tried) { try { sessionStorage.setItem("djgp_retry", "1"); } catch (e) {} location.reload(); return; }
+        document.querySelector("#dj-stall").style.display = "block";
+      };
+      document.querySelector("#dj-stall-reload").onclick = function () { try { sessionStorage.removeItem("djgp_retry"); } catch (e) {} location.reload(); };
+      var djWatch = function () {
+        if (djDone) return;
+        var lim = djLastP < 0.9 ? 30000 : 70000;
+        if (Date.now() - djLastT > lim) { djStall(); return; }
+        setTimeout(djWatch, 2000);
+      };
+      setTimeout(djWatch, 2000);
+      document.addEventListener("visibilitychange", function () { if (!document.hidden) djLastT = Date.now(); });   // ほかのアプリへ行っていた間は数えない
+      var djText = document.createElement("div"); djText.id = "dj-load-text";
+      document.querySelector("#unity-loading-container").appendChild(djText);
+
+      script.onerror = function () { djStall(); };
       script.onload = () => {
         const loadingContainer = document.querySelector("#unity-loading-container");
         const progressBarFull = document.querySelector("#unity-progress-bar-full");
 
         createUnityInstance(canvas, config, (progress) => {
+          if (progress > djLastP + 0.002) { djLastP = progress; djLastT = Date.now(); }
           if (progress < 1) {
             loadingContainer.style.display = "block";
             progressBarFull.style.width = 100 * progress + "%";
+            var pc = Math.floor(100 * progress);
+            djText.innerHTML = (progress < 0.9 ? "読み込み中 " + pc + "%　/　Loading " + pc + "%" : "準備中…　/　Getting ready...")
+              + "<br><small>はじめてと更新のあとは、少し時間がかかります / The first launch and updates take a little longer</small>";
           } else {
             loadingContainer.style.display = "none";
           }
         }).then((unityInstance) => {
+                djDone = true; try { sessionStorage.removeItem("djgp_retry"); } catch (e) {} window.__unity = unityInstance;
                 document.querySelector("#unity-fullscreen-button").onclick = () => {
                   unityInstance.SetFullscreen(1);
                 };
 
               }).catch((message) => {
-                alert(message);
+                console.error(message); djStall();
               });
             };
 
