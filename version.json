@@ -1,1 +1,1 @@
-{"shell": 1, "build": "a9314bb9d52b", "made": "2026-10-31T18:05Z", "files": {"loader": "WebGL.loader.js", "data": "WebGL.data.unityweb", "framework": "WebGL.framework.js.unityweb", "code": "WebGL.wasm.unityweb"}}
+{"shell": 1, "build": "f6aa3dd2539c", "made": "2026-11-01T04:57Z", "files": {"loader": "WebGL.loader.js", "data": "WebGL.data.unityweb", "framework": "WebGL.framework.js.unityweb", "code": "WebGL.wasm.unityweb"}}
