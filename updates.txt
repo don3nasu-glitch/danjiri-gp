@@ -1,0 +1,9 @@
+# 2026-11-08
+ja: iPhone で軽く、なめらかに。描く回数を約1/4に減らしました（見た目はそのまま）
+ja: 機内モードでも、曲と声が鳴るようになりました（一度聞いたものを端末に残します）
+ja: ヘリ子・師匠の声が重ならないように直しました
+ja: タイトル左下に「更新の記録」を置きました（この板です）
+en: Smoother on iPhone: draw calls cut to about a quarter (same look)
+en: Music and voices now play in airplane mode (once heard, kept on your device)
+en: Fixed Heliko and the mentor talking over each other
+en: Added "Update notes" at the bottom-left of the title (this board)
