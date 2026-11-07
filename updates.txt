@@ -1,4 +1,7 @@
 # 2026-11-07
+ja: 角の決め所を光の輪でお知らせ。金色で離すと「決まり」で加速
+ja: 梃子なしで攻めすぎると、ごろごろ転がって爆発 → すぐ「復活ダッシュ」
+ja: 実況の字幕はタップで大きく／この板の文字も右上の「字」で大きく
 ja: iPhone で軽く、なめらかに。描く回数を約1/4に減らしました（見た目はそのまま）
 ja: レースの結果を共有できるようになりました（1位・自己ベスト・大きな修繕費の時はボタンが光ります）
 ja: 月光砲が長く撃てるようになりました（3.5秒・全方位は4.5秒）
@@ -8,6 +11,9 @@ ja: 声の割れと、セリフが途中で切れる不具合を直しました
 ja: 実況中も掛け声や効果音が止まらず、小さく重なるように
 ja: 機内モードでも、曲と声が鳴るようになりました
 ja: タイトル左下に「更新の記録」を置きました（この板です）
+en: A glowing ring shows the moment to brake into a corner. Release on gold for a boost
+en: Take a corner way too hot with no brake and you tumble and blow up - then burst out with a comeback dash
+en: Tap the commentary captions to enlarge them; this board has a text-size button too
 en: Smoother on iPhone: draw calls cut to about a quarter (same look)
 en: Share your race result (the button glows for a win, a personal best or a huge repair bill)
 en: The Moonbeam fires longer (3.5 s, 4.5 s for the all-around beam)
