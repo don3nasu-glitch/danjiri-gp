@@ -1,3 +1,22 @@
+# 2026-11-08
+ja: はじめての角で「かどの練習」。光の輪が縮んだら梃子、金色で離すと「決まり」
+ja: 攻めすぎて転がっただんじりは、家やガードレールを壊しながら突っ込んで大爆発（依頼のレースも）
+ja: 空へぶっ飛ばされたら、くるくる落ちてきて地面で大爆発。綱も手を離れます
+ja: 大ガザミはレース中に帰らなくなりました（鎮めたら帰ります）
+ja: 山・海の端やトンネルの柱で止まらず、はね返るように
+ja: 実況のボケとツッコミを54本追加。悲鳴と読み間違いも録り直し
+ja: 最初の画面で、繁體中文・한국어・Español と実況の声（日本語＋字幕／English）を選べるように。スタートはボタンだけ
+ja: タイトルのPVを新しくしました
+ja: 村の地図で、白い矢印が画面を流れる不具合を直しました。レース開始の雨のような音もなくしました
+en: First corner: a short practice. Brake when the ring closes, release on gold for a boost
+en: Tumbling floats now smash through houses and guardrails, then blow up (in requests too)
+en: Launched into the sky? You spin back down and explode on landing. Ropes let go, too
+en: The giant crab no longer leaves mid-race (it leaves once you calm it)
+en: Mountain and sea edges and tunnel pillars bounce you back instead of stopping you
+en: 54 new commentary gags; screams and misreadings re-recorded
+en: Pick 繁體中文, 한국어 or Español and the commentary voice (Japanese + subtitles / English) on the first screen. Only the start button starts the game
+en: New opening movie
+en: Fixed a white arrow drifting across the village map, and the rain-like noise at the race start
 # 2026-11-07
 ja: 角の決め所を光の輪でお知らせ。金色で離すと「決まり」で加速
 ja: 梃子なしで攻めすぎると、ごろごろ転がって爆発 → すぐ「復活ダッシュ」
