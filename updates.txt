@@ -1,9 +1,19 @@
-# 2026-11-08
+# 2026-11-07
 ja: iPhone で軽く、なめらかに。描く回数を約1/4に減らしました（見た目はそのまま）
-ja: 機内モードでも、曲と声が鳴るようになりました（一度聞いたものを端末に残します）
-ja: ヘリ子・師匠の声が重ならないように直しました
+ja: レースの結果を共有できるようになりました（1位・自己ベスト・大きな修繕費の時はボタンが光ります）
+ja: 月光砲が長く撃てるようになりました（3.5秒・全方位は4.5秒）
+ja: 電線にたるみ。電柱が倒れると線が垂れて火花とショート／踏切の警報機も壊れます
+ja: 車がだんじりの手前で急ブレーキするように
+ja: 声の割れと、セリフが途中で切れる不具合を直しました
+ja: 実況中も掛け声や効果音が止まらず、小さく重なるように
+ja: 機内モードでも、曲と声が鳴るようになりました
 ja: タイトル左下に「更新の記録」を置きました（この板です）
 en: Smoother on iPhone: draw calls cut to about a quarter (same look)
-en: Music and voices now play in airplane mode (once heard, kept on your device)
-en: Fixed Heliko and the mentor talking over each other
+en: Share your race result (the button glows for a win, a personal best or a huge repair bill)
+en: The Moonbeam fires longer (3.5 s, 4.5 s for the all-around beam)
+en: Power lines now sag; knock a pole down and the wires drop with sparks. Crossing gates break too
+en: Cars brake hard when a float bears down on them
+en: Fixed crackling voices and lines that cut off midway
+en: Shouts and sound effects keep playing quietly under the commentary
+en: Music and voices now play in airplane mode
 en: Added "Update notes" at the bottom-left of the title (this board)
