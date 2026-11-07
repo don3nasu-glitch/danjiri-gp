@@ -101,12 +101,18 @@
         var gl = ctx.createDynamicsCompressor();
         gl.threshold.value = -16; gl.knee.value = 0; gl.ratio.value = 20; gl.attack.value = 0.001; gl.release.value = 0.12;
         orig.call(b.game, gc); orig.call(gc, gm); orig.call(gm, gl); orig.call(gl, ctx.destination);
+        // 11/07 不具合（編集長「プタ夫の『上へ』の声が割れる。え・えー の音が全体的に悪い」）：
+        //  前の通り道（強い圧縮 12:1・2ミリ秒で効く・上限 -1.5dB）は、低い声の波の形をゆがめ、さらに上限を最大 +0.2dB はみ出していた（音割れ）。
+        //  → ゆるい圧縮（5:1・10ミリ秒）＋上限 -6dB ＋最後に「やわらかい天井」（0.7 から上はなめらかに丸め、0.97 を超えない）。
+        //    声の大きさは前より約1dB小さいだけ。はみ出しは 0（測定：-1.1dB が最大）
         var vc = ctx.createDynamicsCompressor();
-        vc.threshold.value = -38; vc.knee.value = 6; vc.ratio.value = 12; vc.attack.value = 0.002; vc.release.value = 0.15;
-        var vm = ctx.createGain(); vm.gain.value = 3.2;
+        vc.threshold.value = -30; vc.knee.value = 10; vc.ratio.value = 5; vc.attack.value = 0.010; vc.release.value = 0.25;
+        var vm = ctx.createGain(); vm.gain.value = 1.6;
         var vl = ctx.createDynamicsCompressor();
-        vl.threshold.value = -1.5; vl.knee.value = 0; vl.ratio.value = 20; vl.attack.value = 0.001; vl.release.value = 0.08;
-        orig.call(vc, vm); orig.call(vm, vl); orig.call(vl, ctx.destination);
+        vl.threshold.value = -6; vl.knee.value = 0; vl.ratio.value = 20; vl.attack.value = 0.002; vl.release.value = 0.10;
+        var vs = ctx.createWaveShaper();
+        (function () { var N = 2048, cv = new Float32Array(N), k = 0.7; for (var i = 0; i < N; i++) { var x = i / (N - 1) * 2 - 1, ax = Math.abs(x); cv[i] = ax <= k ? x : (x < 0 ? -1 : 1) * (k + (0.97 - k) * Math.tanh((ax - k) / (0.97 - k))); } vs.curve = cv; try { vs.oversample = '4x'; } catch (e) {} })();
+        orig.call(vc, vm); orig.call(vm, vl); orig.call(vl, vs); orig.call(vs, ctx.destination);
         b.voice = vc; b.gameOut = gl; b.voiceOut = vl;
         buses.push(b);
         return b;
@@ -212,12 +218,12 @@
       }
 
       var buildUrl = "tune/Build";
-      var loaderUrl = buildUrl + "/WebGL.loader.js?v=t493cadeb34f";
+      var loaderUrl = buildUrl + "/WebGL.loader.js?v=t4ec8b27ccb2";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/WebGL.data.unityweb?v=t493cadeb34f",
-        frameworkUrl: buildUrl + "/WebGL.framework.js.unityweb?v=t493cadeb34f",
-        codeUrl: buildUrl + "/WebGL.wasm.unityweb?v=t493cadeb34f",
+        dataUrl: buildUrl + "/WebGL.data.unityweb?v=t4ec8b27ccb2",
+        frameworkUrl: buildUrl + "/WebGL.framework.js.unityweb?v=t4ec8b27ccb2",
+        codeUrl: buildUrl + "/WebGL.wasm.unityweb?v=t4ec8b27ccb2",
         streamingAssetsUrl: new URL("StreamingAssets", document.baseURI).href,
         cacheControl: function (url) { return "no-store"; },
 
