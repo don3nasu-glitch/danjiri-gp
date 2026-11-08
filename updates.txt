@@ -1,44 +1,14 @@
 # 2026-11-08
-ja: はじめての角で「かどの練習」。光の輪が縮んだら梃子、金色で離すと「決まり」
-ja: 攻めすぎて転がっただんじりは、家やガードレールを壊しながら突っ込んで大爆発（依頼のレースも）
-ja: 空へぶっ飛ばされたら、くるくる落ちてきて地面で大爆発。綱も手を離れます
-ja: 大ガザミはレース中に帰らなくなりました（鎮めたら帰ります）
-ja: 山・海の端やトンネルの柱で止まらず、はね返るように
-ja: 実況のボケとツッコミを54本追加。悲鳴と読み間違いも録り直し
-ja: 最初の画面で、繁體中文・한국어・Español と実況の声（日本語＋字幕／English）を選べるように。スタートはボタンだけ
-ja: タイトルのPVを新しくしました
-ja: 村の地図で、白い矢印が画面を流れる不具合を直しました。レース開始の雨のような音もなくしました
-en: First corner: a short practice. Brake when the ring closes, release on gold for a boost
-en: Tumbling floats now smash through houses and guardrails, then blow up (in requests too)
-en: Launched into the sky? You spin back down and explode on landing. Ropes let go, too
-en: The giant crab no longer leaves mid-race (it leaves once you calm it)
-en: Mountain and sea edges and tunnel pillars bounce you back instead of stopping you
-en: 54 new commentary gags; screams and misreadings re-recorded
-en: Pick 繁體中文, 한국어 or Español and the commentary voice (Japanese + subtitles / English) on the first screen. Only the start button starts the game
-en: New opening movie
-en: Fixed a white arrow drifting across the village map, and the rain-like noise at the race start
+ja: 最初の画面で、言葉（日本語・English・繁體中文・한국어・Español）と実況の声（日本語＋字幕／English）を選べます。あとからタイトル画面でも変えられます
+ja: 大ガザミは、鎮めるまで帰りません。光るところに体当たりして鎮めよう
+en: Pick your language (Japanese, English, 繁體中文, 한국어, Español) and the commentary voice (Japanese + subtitles / English) on the first screen. You can change them later on the title screen
+en: The giant crab stays until you calm it. Ram its glowing spots to calm it down
 # 2026-11-07
-ja: 角の決め所を光の輪でお知らせ。金色で離すと「決まり」で加速
-ja: 梃子なしで攻めすぎると、ごろごろ転がって爆発 → すぐ「復活ダッシュ」
-ja: 実況の字幕はタップで大きく／この板の文字も右上の「字」で大きく
-ja: iPhone で軽く、なめらかに。描く回数を約1/4に減らしました（見た目はそのまま）
-ja: レースの結果を共有できるようになりました（1位・自己ベスト・大きな修繕費の時はボタンが光ります）
-ja: 月光砲が長く撃てるようになりました（3.5秒・全方位は4.5秒）
-ja: 電線にたるみ。電柱が倒れると線が垂れて火花とショート／踏切の警報機も壊れます
-ja: 車がだんじりの手前で急ブレーキするように
-ja: 声の割れと、セリフが途中で切れる不具合を直しました
-ja: 実況中も掛け声や効果音が止まらず、小さく重なるように
-ja: 機内モードでも、曲と声が鳴るようになりました
-ja: タイトル左下に「更新の記録」を置きました（この板です）
-en: A glowing ring shows the moment to brake into a corner. Release on gold for a boost
-en: Take a corner way too hot with no brake and you tumble and blow up - then burst out with a comeback dash
-en: Tap the commentary captions to enlarge them; this board has a text-size button too
-en: Smoother on iPhone: draw calls cut to about a quarter (same look)
+ja: 角では光の輪が縮みます。輪が縮んだら梃子（ブレーキ）、金色に光った瞬間に離すと「決まり」で加速
+ja: 梃子を使わずに角へ突っ込みすぎると、ごろごろ転がって爆発します（すぐ復活ダッシュで戻れます）
+ja: 実況の字幕はタップで大きくなります。この板の文字も、右上の「字」で大きくできます
+ja: レースの結果を共有できます（1位・自己ベスト・大きな修繕費の時はボタンが光ります）
+en: Corners show a shrinking ring of light. Brake when it closes, release the moment it turns gold for a boost
+en: Take a corner way too hot without braking and you tumble and blow up (a comeback dash gets you right back)
+en: Tap the commentary captions to enlarge them; this board has a text-size button at the top right
 en: Share your race result (the button glows for a win, a personal best or a huge repair bill)
-en: The Moonbeam fires longer (3.5 s, 4.5 s for the all-around beam)
-en: Power lines now sag; knock a pole down and the wires drop with sparks. Crossing gates break too
-en: Cars brake hard when a float bears down on them
-en: Fixed crackling voices and lines that cut off midway
-en: Shouts and sound effects keep playing quietly under the commentary
-en: Music and voices now play in airplane mode
-en: Added "Update notes" at the bottom-left of the title (this board)
