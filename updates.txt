@@ -1,8 +1,10 @@
 # 2026-11-08
+ja: 【直しました】レース開始直後などに鳴っていた、雨のようなザーッという音（波・風の環境音）をなくしました
 ja: 【直しました】はじめての角の「かどの練習」で、止まったまま動かず「とまる」が押されたままになる不具合。練習はゲームを止めずに、ボタンが光って案内するだけにしました
 ja: 【直しました】ぶっ飛んだ車が傾いたまま残って、だんじりがすり抜ける不具合。踏切の棒やゴルフ場の小物が、当たると消えてしまう不具合。競輪場のバンクで、だんじりが止まってしまう不具合
 ja: 最初の画面で、言葉（日本語・English・繁體中文・한국어・Español）と実況の声（日本語＋字幕／English）を選べます。あとからタイトル画面でも変えられます
 ja: 大ガザミは、鎮めるまで帰りません。光るところに体当たりして鎮めよう
+en: [Fixed] Removed the rain-like hiss (wave and wind ambience) heard at race start
 en: [Fixed] On the first-corner practice, the game could stay frozen with STOP stuck down. The practice no longer stops the game; it just highlights the button
 en: [Fixed] Flung cars stuck tilted and let floats pass through; crossing bars and golf-course props vanished when hit; floats stalled on the velodrome bank
 en: Pick your language (Japanese, English, 繁體中文, 한국어, Español) and the commentary voice (Japanese + subtitles / English) on the first screen. You can change them later on the title screen
