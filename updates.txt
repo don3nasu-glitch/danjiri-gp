@@ -1,3 +1,12 @@
+# 2026-11-09
+ja: 角で攻めすぎると、だんじりが外へぐらーっと傾いて片輪でぐらぐらします。その間に梃子（ブレーキ）をかけるか、引くのをゆるめると「ギリギリ耐えた！」で助かります
+ja: 【直しました】だんじりが少しのことでこけすぎていたのをゆるめました。転がってからの復活も早くしました
+ja: 【直しました】最終周の歌入りの曲が小さくて、聞こえにくかったのを大きくしました
+ja: 【直しました】実況のヘリ子の言い回しのおかしな所
+en: Take a corner too hot and your float leans out and teeters on one side. Brake or ease off the pull while it wobbles and you'll hold on ("Just held on!")
+en: [Fixed] Floats tipped over too easily; the comeback after a tumble is faster now
+en: [Fixed] The final-lap vocal song was too quiet to hear
+en: [Fixed] An odd line in Heliko's commentary
 # 2026-11-08
 ja: 【直しました】レース開始直後などに鳴っていた、雨のようなザーッという音（波・風の環境音）をなくしました
 ja: 【直しました】はじめての角の「かどの練習」で、止まったまま動かず「とまる」が押されたままになる不具合。練習はゲームを止めずに、ボタンが光って案内するだけにしました
