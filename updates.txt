@@ -1,4 +1,12 @@
 # 2026-11-09
+ja: 応援札（見物の一番）を大きく作り直しました。会所のレースの板のいちばん上から入れます。札は競艇と同じ7種類（単勝・複勝・2連単・2連複・拡連複・3連単・3連複）。札はただで、外れてもお金は減りません。続けて当てると「連チャン」でご祝儀が増えます
+ja: 見物中は「応援！」を連打すると、いちばん応援している町に追い風。「視点」ボタンで中継・先頭・各町を切りかえられます
+ja: 会所に「祭礼寄進」。納めたお金で村が育ち、段階ごとに奉納提灯・見物の桟敷席などが増えます（納めなくても困りません）。ひいき町も選べます
+ja: 【直しました】コマトモリをなでる場面で、手がこまの頭に届いていなかった
+en: Cheer tags (Spectator Race) rebuilt. Enter from the top of the race board in the hall. 7 kinds of tags, like boat racing (Win, Place, Exacta, Quinella, Wide, Trifecta, Trio). Free, and you never lose money. Hit in a row for a streak bonus
+en: While watching, mash "Cheer!" to give your favorite a tailwind. The View button switches between broadcast, leader and each town
+en: New "Festival Offering" at the hall: offerings grow the village with lanterns, a box-seat view and more (optional). You can also pick a favorite town
+en: [Fixed] The petting scene with Komatomori: your hand didn't reach its head
 ja: 新しい頼んまっさ「クチダケモノ」（★3）。口が紫の光を吸いこんだら光線です。口の前から横へよけて、撃ったあと口を開けたまま止まる間に、光る唇へ体当たり。体を送られていく「こぶ」も光ったらねらえます
 ja: 会所の札に、出てくる大物（大きなモンスター）を書くようにしました
 en: New Tanma request: Kuchidake-mono (★3). When its mouth sucks in purple light, a beam is coming: get out of its line, then ram the glowing lips while it freezes mouth-open. The lumps traveling down its body can be hit when they glow
