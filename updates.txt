@@ -1,4 +1,8 @@
 # 2026-11-09
+ja: 新しい頼んまっさ「クチダケモノ」（★3）。口が紫の光を吸いこんだら光線です。口の前から横へよけて、撃ったあと口を開けたまま止まる間に、光る唇へ体当たり。体を送られていく「こぶ」も光ったらねらえます
+ja: 会所の札に、出てくる大物（大きなモンスター）を書くようにしました
+en: New Tanma request: Kuchidake-mono (★3). When its mouth sucks in purple light, a beam is coming: get out of its line, then ram the glowing lips while it freezes mouth-open. The lumps traveling down its body can be hit when they glow
+en: Hall boards now show which big monster appears
 ja: 角で攻めすぎると、だんじりが外へぐらーっと傾いて片輪でぐらぐらします。その間に梃子（ブレーキ）をかけるか、引くのをゆるめると「ギリギリ耐えた！」で助かります
 ja: 【直しました】だんじりが少しのことでこけすぎていたのをゆるめました。転がってからの復活も早くしました
 ja: 【直しました】最終周の歌入りの曲が小さくて、聞こえにくかったのを大きくしました
