@@ -7,6 +7,8 @@ ja: 怪獣見物の応援札を選びやすく：①勝つ方 → ②決まり�
 ja: クチダケモノの光線が見えるように。はじめはトグロを巻いて競輪場に収まります
 ja: 「今日の一番」（日本の日付で、みんな同じ組み合わせ）と、×10 以上を当てたときの「大番狂わせの記念札」。結果を共有できます
 ja: マナーモードの説明（iPhone）をタイトルの音の案内に。師匠のお知らせの札をすぐ出すように
+ja: 怪獣見物の札に「決着（はやい・ふつう・長期戦）」も。勝つ方 → 決まり手 → 決着の順に選べて（決まり手と決着は選ばなくてもよい）、当てるほど倍率が上がります。当たったら倍率を大きく、外れたらどこが外れたかも出します
+ja: 札を選んでいる間は、取材ヘリの実況は始まりを待つように
 en: New: Kaiju Bouts. Pick red and blue from 20 monsters in the guide and watch them crash out of the velodrome into town, smashing buildings as they fight. Predict the winner with free cheer tags (you never lose money). Underdog wins pay big
 en: New Cheer-tag Desk (red curtain) in the hall, with tipsters Gen (races) and Otetsu (kaiju). One tag per race or bout
 en: Spectator Races: one song through the race and one on the results, louder vocals, and two cameras (Broadcast / Whole field)
@@ -15,6 +17,8 @@ en: Kaiju Bout tags are easier: 1. winner, 2. finisher (only that monster's move
 en: The Kuchidake-mono's beam is now visible, and it starts coiled up inside the velodrome
 en: "Today's Bout" (same matchup for everyone, by Japan date) and a golden souvenir tag when a x10+ pick hits. Share your result
 en: Silent-mode notes (iPhone) in the sound help on the title screen. Kokuou's notice badge now appears right away
+en: Kaiju Bout tags now include the finish time (quick / normal / long). Pick winner, then finisher, then finish time (the last two are optional); each extra pick raises the odds. Hits show the odds big, and misses show which pick missed
+en: The news chopper now waits until the bout or race starts before commentating
 # 2026-11-09
 ja: 応援札（見物の一番）を大きく作り直しました。会所のレースの板のいちばん上から入れます。札は競艇と同じ7種類（単勝・複勝・2連単・2連複・拡連複・3連単・3連複）。札はただで、外れてもお金は減りません。続けて当てると「連チャン」でご祝儀が増えます
 ja: 見物中は「応援！」を連打すると、いちばん応援している町に追い風。「視点」ボタンで中継・先頭・各町を切りかえられます
