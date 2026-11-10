@@ -1,3 +1,11 @@
+# 2026-11-11
+ja: クチダケモノは、はじめトグロを巻いて競輪場に収まり、「はじめ！」で大きくうねって戦います
+ja: 「タップしてスタート」に音楽の大きさのボタン。iPhoneでは「マナーモード中は鳴らない（イヤホン・Bluetoothなら鳴る）」の一言を、タップしてスタートとタイトルに
+ja: レース見物：画面のタップでは視点が変わらないように（視点はボタンで）。ドラッグで回す・上下で寄り引き。全体の視点では、地車の上に枠の色の札（枠番・順位・町の名）
+en: The Kuchidake-mono now starts coiled up inside the velodrome, then uncoils and writhes like a giant worm once the bout begins
+en: Music volume button on the "Tap to start" screen. On iPhone, a note on the start and title screens: Silent Mode mutes the sound (earphones and Bluetooth still play)
+en: Spectator Races: tapping the screen no longer switches the view (use the View button). Drag to turn, up/down to zoom. In Whole field view, a colored tag (post number, place, town) floats over each danjiri
+
 # 2026-11-10
 ja: 新しい遊び「怪獣見物」。図鑑の怪獣二十体から赤と青を選んで一番勝負。競輪場から町へなだれこみ、建物を壊しながら激しくぶつかり合います。勝つ方を応援札で予想（札はただ。お金は減りません）。弱い方が勝つと倍率が大きい
 ja: 会所の右に「応援札の受付」（赤いのれん）。レースの予想屋「源さん」、怪獣の予想屋「お鉄さん」に見立てを聞けます。札は1レース（1番）に1枚
