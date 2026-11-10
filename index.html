@@ -210,12 +210,12 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/WebGL.loader.js?v=def7918b584f";
+      var loaderUrl = buildUrl + "/WebGL.loader.js?v=c82e2ed57efa";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/WebGL.data.unityweb?v=def7918b584f",
-        frameworkUrl: buildUrl + "/WebGL.framework.js.unityweb?v=def7918b584f",
-        codeUrl: buildUrl + "/WebGL.wasm.unityweb?v=def7918b584f",
+        dataUrl: buildUrl + "/WebGL.data.unityweb?v=c82e2ed57efa",
+        frameworkUrl: buildUrl + "/WebGL.framework.js.unityweb?v=c82e2ed57efa",
+        codeUrl: buildUrl + "/WebGL.wasm.unityweb?v=c82e2ed57efa",
         streamingAssetsUrl: "StreamingAssets",
         cacheControl: function (url) { return "no-store"; },
 
@@ -293,7 +293,9 @@
         }
         canvas.className = "unity-mobile";
         // 10/24：全画面ボタン（ホーム画面から開いたときは出さない）。Android などはそのまま全画面に、iPhone はやり方を案内
-        if (!isStandaloneNow()) {
+        // 11/11 編集長「全画面にするには、がアプリでも出る」：iPhone アプリ（Capacitor）の中では、もともと全画面なので出さない
+        var isNativeApp = !!(window.Capacitor && (window.Capacitor.isNativePlatform ? window.Capacitor.isNativePlatform() : true)) || /^(capacitor|ionic):/.test(location.protocol);
+        if (!isStandaloneNow() && !isNativeApp) {
           var fsb = document.querySelector("#fs-btn"), fsh = document.querySelector("#fs-help");
           var showFs = function () { if (rot.want() || isStandaloneNow() || document.fullscreenElement || document.webkitFullscreenElement) return; fsb.style.display = "block"; clearTimeout(fsb._t); fsb._t = setTimeout(function () { fsb.style.display = "none"; }, 10000); };
           fsb.onclick = function (e) {

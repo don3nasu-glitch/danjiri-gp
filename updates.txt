@@ -1,4 +1,20 @@
 # 2026-11-11
+ja: レースの応援札：毎レース、大型モンスター（大ガザミ・大イノシシ神・クチダケモノ・大ダコのどれか）が必ず乱入します。鎮めることはできません。通り過ぎるまで見守ってください
+ja: レースの応援札：どの視点でも、各だんじりの上に枠番の札が出ます。レース中の曲は「フラッグ・ドロップ・ラッシュ」に
+ja: 応援札の受付に「見物の記録」。通算の的中・最高の連チャン・一番の大穴を共有できます。共有すると、お礼に村のお金（1日1回）
+ja: 怪獣見物：大ダコの技は「スミマス」（会場一面に墨をまく）
+ja: 【直しました】レースの応援札で、地車が無敵になってばかりで攻撃が当たらなかった
+ja: 【直しました】怪獣見物の始まりで、会場や観客が透けて見えることがあった
+ja: 【直しました】実況が「大ガザミ」「大ダコ」の「大」を「だい」と読んでいた（正しくは「おお」）
+ja: 【直しました】iPhone アプリで「全画面にするには」の案内が出ていた
+en: Race cheer tags: a giant monster (Giant Gazami, Great Boar Kami, Kuchidake-mono or Giant Octopus) now crashes every race. It can't be calmed, so watch until it passes
+en: Race cheer tags: a post-number tag floats over each danjiri in every camera view. The race song is now "Flag Drop Rush"
+en: New "Spectator Record" at the Cheer-tag Desk: share your total hits, best streak and biggest long shot. Sharing earns a thank-you gift of village money (once a day)
+en: Kaiju Bouts: the Giant Octopus now uses "Ink Storm", spraying ink over the whole arena
+en: Fixed: in race cheer tags, floats were invincible most of the time so attacks never landed
+en: Fixed: at the start of a Kaiju Bout, the stands and crowd could look see-through
+en: Fixed: the commentary misread 大ガザミ / 大ダコ
+en: Fixed: the "how to go full screen" tip showed inside the iPhone app
 ja: 「タップしてスタート」の画面でも、音楽の大きさを変えられます
 ja: レース見物：画面をドラッグで視点を回せます（上下で寄り・引き）。全体の視点では、地車の上に枠番の札が出ます
 en: You can now set the music volume on the "Tap to start" screen
