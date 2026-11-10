@@ -4,3 +4,5 @@ Build/WebGL.framework.js
 tune/Build/WebGL.data
 tune/Build/WebGL.wasm
 tune/Build/WebGL.framework.js
+store/*.mp4
+store/short/
