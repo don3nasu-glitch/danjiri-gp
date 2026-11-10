@@ -1,32 +1,22 @@
 # 2026-11-11
-ja: クチダケモノは、はじめトグロを巻いて競輪場に収まり、「はじめ！」で大きくうねって戦います
-ja: 「タップしてスタート」に音楽の大きさのボタン。iPhoneでは「マナーモード中は鳴らない（イヤホン・Bluetoothなら鳴る）」の一言を、タップしてスタートとタイトルに
-ja: レース見物：画面のタップでは視点が変わらないように（視点はボタンで）。ドラッグで回す・上下で寄り引き。全体の視点では、地車の上に枠の色の札（枠番・順位・町の名）
-en: The Kuchidake-mono now starts coiled up inside the velodrome, then uncoils and writhes like a giant worm once the bout begins
-en: Music volume button on the "Tap to start" screen. On iPhone, a note on the start and title screens: Silent Mode mutes the sound (earphones and Bluetooth still play)
-en: Spectator Races: tapping the screen no longer switches the view (use the View button). Drag to turn, up/down to zoom. In Whole field view, a colored tag (post number, place, town) floats over each danjiri
+ja: 「タップしてスタート」の画面でも、音楽の大きさを変えられます
+ja: レース見物：画面をドラッグで視点を回せます（上下で寄り・引き）。全体の視点では、地車の上に枠番の札が出ます
+en: You can now set the music volume on the "Tap to start" screen
+en: Spectator Races: drag to turn the view (up/down to zoom). In Whole field view, a post-number tag floats over each danjiri
 
 # 2026-11-10
 ja: 新しい遊び「怪獣見物」。図鑑の怪獣二十体から赤と青を選んで一番勝負。競輪場から町へなだれこみ、建物を壊しながら激しくぶつかり合います。勝つ方を応援札で予想（札はただ。お金は減りません）。弱い方が勝つと倍率が大きい
+ja: 怪獣見物の応援札は、勝つ方 → 決まり手 → 決着の順に選べます（決まり手と決着は選ばなくてもよい）。当てるほど倍率が上がります
+ja: 「今日の一番」（日本の日付で、みんな同じ組み合わせ）と、×10 以上を当てたときの「大番狂わせの記念札」。結果を共有できます
 ja: 会所の右に「応援札の受付」（赤いのれん）。レースの予想屋「源さん」、怪獣の予想屋「お鉄さん」に見立てを聞けます。札は1レース（1番）に1枚
 ja: 見物の一番：歌はレースを通して1曲、結果で1曲。歌を大きく。カメラは「中継」と「全体」の2つに
 ja: 言語を追加：简体中文・Français・Deutsch・Português・Italiano。繁體中文・한국어・Español も新しい画面まで訳しました
-ja: 怪獣見物の応援札を選びやすく：①勝つ方 → ②決まり手（その怪獣の技だけ・選ばなくてもよい）→ 倍率。視点は「中継／全体」、画面をドラッグで回す・上下で寄り引き（見物の一番の全体視点でも）
-ja: クチダケモノの光線が見えるように。はじめはトグロを巻いて競輪場に収まります
-ja: 「今日の一番」（日本の日付で、みんな同じ組み合わせ）と、×10 以上を当てたときの「大番狂わせの記念札」。結果を共有できます
-ja: マナーモードの説明（iPhone）をタイトルの音の案内に。師匠のお知らせの札をすぐ出すように
-ja: 怪獣見物の札に「決着（はやい・ふつう・長期戦）」も。勝つ方 → 決まり手 → 決着の順に選べて（決まり手と決着は選ばなくてもよい）、当てるほど倍率が上がります。当たったら倍率を大きく、外れたらどこが外れたかも出します
-ja: 札を選んでいる間は、取材ヘリの実況は始まりを待つように
 en: New: Kaiju Bouts. Pick red and blue from 20 monsters in the guide and watch them crash out of the velodrome into town, smashing buildings as they fight. Predict the winner with free cheer tags (you never lose money). Underdog wins pay big
+en: Kaiju Bout tags: pick the winner, then the finisher, then how long it lasts (the last two are optional). Each extra pick raises the odds
+en: "Today's Bout" (same matchup for everyone, by Japan date) and a golden souvenir tag when a x10+ pick hits. Share your result
 en: New Cheer-tag Desk (red curtain) in the hall, with tipsters Gen (races) and Otetsu (kaiju). One tag per race or bout
 en: Spectator Races: one song through the race and one on the results, louder vocals, and two cameras (Broadcast / Whole field)
 en: New languages: Simplified Chinese, French, German, Portuguese and Italian. Traditional Chinese, Korean and Spanish now cover the new screens too
-en: Kaiju Bout tags are easier: 1. winner, 2. finisher (only that monster's moves, optional), then the odds. Views: Broadcast / Whole field; drag to turn, up/down to zoom (also in Spectator Races)
-en: The Kuchidake-mono's beam is now visible, and it starts coiled up inside the velodrome
-en: "Today's Bout" (same matchup for everyone, by Japan date) and a golden souvenir tag when a x10+ pick hits. Share your result
-en: Silent-mode notes (iPhone) in the sound help on the title screen. Kokuou's notice badge now appears right away
-en: Kaiju Bout tags now include the finish time (quick / normal / long). Pick winner, then finisher, then finish time (the last two are optional); each extra pick raises the odds. Hits show the odds big, and misses show which pick missed
-en: The news chopper now waits until the bout or race starts before commentating
 # 2026-11-09
 ja: 応援札（見物の一番）を大きく作り直しました。会所のレースの板のいちばん上から入れます。札は競艇と同じ7種類（単勝・複勝・2連単・2連複・拡連複・3連単・3連複）。札はただで、外れてもお金は減りません。続けて当てると「連チャン」でご祝儀が増えます
 ja: 見物中は「応援！」を連打すると、いちばん応援している町に追い風。「視点」ボタンで中継・先頭・各町を切りかえられます
