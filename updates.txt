@@ -1,3 +1,12 @@
+# 2026-11-10
+ja: 新しい遊び「怪獣見物」。図鑑の怪獣二十体から赤と青を選んで一番勝負。競輪場から町へなだれこみ、建物を壊しながら激しくぶつかり合います。勝つ方を応援札で予想（札はただ。お金は減りません）。弱い方が勝つと倍率が大きい
+ja: 会所の右に「応援札の受付」（赤いのれん）。レースの予想屋「源さん」、怪獣の予想屋「お鉄さん」に見立てを聞けます。札は1レース（1番）に1枚
+ja: 見物の一番：歌はレースを通して1曲、結果で1曲。歌を大きく。カメラは「中継」と「全体」の2つに
+ja: 言語を追加：简体中文・Français・Deutsch・Português・Italiano。繁體中文・한국어・Español も新しい画面まで訳しました
+en: New: Kaiju Bouts. Pick red and blue from 20 monsters in the guide and watch them crash out of the velodrome into town, smashing buildings as they fight. Predict the winner with free cheer tags (you never lose money). Underdog wins pay big
+en: New Cheer-tag Desk (red curtain) in the hall, with tipsters Gen (races) and Otetsu (kaiju). One tag per race or bout
+en: Spectator Races: one song through the race and one on the results, louder vocals, and two cameras (Broadcast / Whole field)
+en: New languages: Simplified Chinese, French, German, Portuguese and Italian. Traditional Chinese, Korean and Spanish now cover the new screens too
 # 2026-11-09
 ja: 応援札（見物の一番）を大きく作り直しました。会所のレースの板のいちばん上から入れます。札は競艇と同じ7種類（単勝・複勝・2連単・2連複・拡連複・3連単・3連複）。札はただで、外れてもお金は減りません。続けて当てると「連チャン」でご祝儀が増えます
 ja: 見物中は「応援！」を連打すると、いちばん応援している町に追い風。「視点」ボタンで中継・先頭・各町を切りかえられます
