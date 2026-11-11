@@ -1,5 +1,7 @@
 # 2026-11-11
-ja: レースの応援札：毎レース、大型モンスター（大ガザミ・大イノシシ神・クチダケモノ・大ダコのどれか）が必ず乱入します。鎮めることはできません。通り過ぎるまで見守ってください
+ja: レースの応援札：毎レース、大型モンスター（大ガザミ・大イノシシ神・クチダケモノ・大ダコのどれか）が必ず乱入します（登場ムービー付き・スキップ可）。鎮めることはできず、ゴールまで地車を襲い続けます
+ja: 大型モンスターは、レースでは鎮められなくなりました（一度出たら最後までいます）。鎮めるのは「頼んまっさ」で
+ja: レースの応援札・怪獣見物の結果に、その一番の修繕費（合算）が出ます。見物人の負担は0円
 ja: レースの応援札：どの視点でも、各だんじりの上に枠番の札が出ます。レース中の曲は「フラッグ・ドロップ・ラッシュ」に
 ja: 応援札の受付に「見物の記録」。通算の的中・最高の連チャン・一番の大穴を共有できます。共有すると、お礼に村のお金（1日1回）
 ja: 怪獣見物：大ダコの技は「スミマス」（会場一面に墨をまく）
@@ -7,7 +9,9 @@ ja: 【直しました】レースの応援札で、地車が無敵になって�
 ja: 【直しました】怪獣見物の始まりで、会場や観客が透けて見えることがあった
 ja: 【直しました】実況が「大ガザミ」「大ダコ」の「大」を「だい」と読んでいた（正しくは「おお」）
 ja: 【直しました】iPhone アプリで「全画面にするには」の案内が出ていた
-en: Race cheer tags: a giant monster (Giant Gazami, Great Boar Kami, Kuchidake-mono or Giant Octopus) now crashes every race. It can't be calmed, so watch until it passes
+en: Race cheer tags: a giant monster (Giant Gazami, Great Boar Kami, Kuchidake-mono or Giant Octopus) now crashes every race with an entrance movie (skippable). It can't be calmed and attacks the floats all the way to the finish
+en: Giant monsters can no longer be calmed during races (once out, they stay to the end). Calm them in Tanma requests
+en: Race cheer tags and Kaiju Bouts now show the total repair bill on the results. Spectators pay nothing
 en: Race cheer tags: a post-number tag floats over each danjiri in every camera view. The race song is now "Flag Drop Rush"
 en: New "Spectator Record" at the Cheer-tag Desk: share your total hits, best streak and biggest long shot. Sharing earns a thank-you gift of village money (once a day)
 en: Kaiju Bouts: the Giant Octopus now uses "Ink Storm", spraying ink over the whole arena
