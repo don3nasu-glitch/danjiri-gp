@@ -1,15 +1,12 @@
 # 2026-11-12
-ja: 応援札の受付で、はじめての1回だけ「ご祝儀」100万円（18歳以上と答えた人。掛け金つきの応援札が出る版で）
-ja: 怪獣見物：買った札の「一覧・見直し・取消」。空を飛ぶ怪獣は低空飛行で体当たりも。体の高さが合わないと当たりません。海や山には入りません。光線を撃つのは、もともと撃つ怪獣だけに
+ja: 応援札は、前と同じ無料の札（お金は減りません）に戻しました
+ja: 怪獣見物：空を飛ぶ怪獣は低空飛行で体当たりも。体の高さが合わないと当たりません。海や山には入りません。光線を撃つのは、もともと撃つ怪獣だけに
 ja: 怪獣見物：超巨大UFOは出場から外しました（宇宙人の乗り物のため）。出場は十九体
-en: A one-time welcome gift of 1,000,000 yen at the Cheer-tag Desk (for players who answer 18 or older, in versions with staked tags)
-en: Kaiju Bouts: "Review / void" for your tags. Flying kaiju now fly low and ram. Attacks only land when bodies actually overlap in height. Fights stay out of the sea and mountains. Only kaiju that shoot beams in races use beams
+en: Cheer tags are back to the free version (your money never goes down)
+en: Kaiju Bouts: Flying kaiju now fly low and ram. Attacks only land when bodies actually overlap in height. Fights stay out of the sea and mountains. Only kaiju that shoot beams in races use beams
 en: Kaiju Bouts: the Mothership no longer competes (it's the aliens' vehicle). 19 kaiju now enter
 
 # 2026-11-11
-ja: 応援札が「掛け金つき」になりました（18歳以上。ブラウザ版から。iPhone アプリは次の版 1.0.6 から）。村のおさいふの円を掛けて、当たれば「掛け金×倍率」の払い戻し。架空のゲーム内資金です。現金の購入・換金・送金はできません
-ja: レースの応援札は「記載用紙」に。通常の用紙と、フォーメーション／ボックスの用紙の2枚で、単勝・複勝・2連単・2連複・拡連複・3連単・3連複を何枚でも書けます。「一覧・見直し・取消」で買い目を確かめて取り消せます。掛け方は「？掛け方」に
-ja: 怪獣見物の応援札も、何枚でも買えます（勝つ方・決まり手・決着・引き分け）。受付の「見物の記録」に、応援札の収支と最近の札
 ja: レースの応援札：毎レース、大型モンスター（大ガザミ・大イノシシ神・クチダケモノ・大ダコのどれか）が必ず乱入します（登場ムービー付き・スキップ可）。鎮めることはできず、ゴールまで地車を襲い続けます
 ja: 大型モンスターは、レースでは鎮められなくなりました（一度出たら最後までいます）。鎮めるのは「頼んまっさ」で
 ja: レースの応援札・怪獣見物の結果に、その一番の修繕費（合算）が出ます。見物人の負担は0円
@@ -20,9 +17,6 @@ ja: 【直しました】レースの応援札で、地車が無敵になって�
 ja: 【直しました】怪獣見物の始まりで、会場や観客が透けて見えることがあった
 ja: 【直しました】実況が「大ガザミ」「大ダコ」の「大」を「だい」と読んでいた（正しくは「おお」）
 ja: 【直しました】iPhone アプリで「全画面にするには」の案内が出ていた
-en: Cheer tags now use stakes (18+; in the browser version now, and in the iPhone app from the next version 1.0.6). Stake yen from your village wallet and a hit pays stake x odds. This is fictional in-game money. It can't be bought, cashed out or transferred
-en: Race cheer tags now use betting cards: a Standard card and a Formation / Box card. Write as many Win, Place, Exacta, Quinella, Wide, Trifecta and Trio bets as you like, then check or void them under "Review / void". See "? How to bet"
-en: Kaiju Bout tags can also be bought in any number (winner, finisher, finish time, draw). The Spectator Record now shows your tag balance and recent tags
 en: Race cheer tags: a giant monster (Giant Gazami, Great Boar Kami, Kuchidake-mono or Giant Octopus) now crashes every race with an entrance movie (skippable). It can't be calmed and attacks the floats all the way to the finish
 en: Giant monsters can no longer be calmed during races (once out, they stay to the end). Calm them in Tanma requests
 en: Race cheer tags and Kaiju Bouts now show the total repair bill on the results. Spectators pay nothing
