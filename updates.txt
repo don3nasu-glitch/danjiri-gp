@@ -1,4 +1,12 @@
 # 2026-11-12
+ja: こけた時、ごろごろ転がらなくなりました。ドーンと横倒し → すぐ爆発 → すぐ復帰（待ち時間は半分以下）
+ja: 頼んまっさ：カメラが近くなり、迫力が上がりました
+ja: 頼んまっさ：近い武器が当たると、武器の先から光の刃が伸びます（届いているのが見えます）
+ja: 頼んまっさ：イノシシ神・小型の相手も、当たった瞬間にびくっとのけぞります
+en: When you tip over, the float no longer rolls. It slams down, explodes, and you are back in the race in under half the time
+en: Hunts: the camera is closer for more impact
+en: Hunts: melee hits now show a blade of light from the weapon tip to the target
+en: Hunts: the Boar God and smaller foes now flinch on every hit
 ja: 応援札は、前と同じ無料の札（お金は減りません）に戻しました
 ja: 怪獣見物：空を飛ぶ怪獣は低空飛行で体当たりも。体の高さが合わないと当たりません。海や山には入りません。光線を撃つのは、もともと撃つ怪獣だけに
 ja: 怪獣見物：超巨大UFOは出場から外しました（宇宙人の乗り物のため）。出場は十九体
