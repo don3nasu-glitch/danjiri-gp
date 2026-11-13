@@ -1,3 +1,17 @@
+# 2026-11-13
+ja: 大工方えらび：両手を前に突き出す変なポーズをやめて、自然に立つようになりました。光も見直して、顔に陰影が出ます
+ja: 怪獣見物：超巨大UFOが出場に戻りました（UFOと同じく低空飛行・体当たり・急降下・吸い上げ）。出場は二十体
+ja: 怪獣見物：技名が、赤側は左から赤い字、青側は右から青い字で出ます。どっちの技か一目でわかります
+ja: 「見物をやめる」は2回押しに。1回目で「もう一度押すと、やめる」に変わります（押しまちがいで終わりません）
+ja: 超巨大星人が、ぷるぷる震えなくなりました（大きい体らしく、ゆっくり重く動きます）
+ja: 英語版：実況のプタ夫と師匠の声を、はっきり聞き分けられるようにしました
+en: Daikukata select: no more odd arms-out pose. Your character now stands naturally, with better lighting on the face
+en: Kaiju Bouts: the Mothership is back (low flight, rams, dives and tractor beam, like the UFO). 20 kaiju now enter
+en: Kaiju Bouts: move names now slide in from the left in red for the red side, and from the right in blue for the blue side
+en: "Stop watching" now needs two taps. The first tap changes it to "Tap again to quit", so a stray tap won't end the show
+en: The Giant Alien no longer jitters. It moves slowly and heavily, like something that big should
+en: Commentary: Putao and Master Kokuou now sound clearly different
+
 # 2026-11-12
 ja: こけた時、ごろごろ転がらなくなりました。ドーンと横倒し → すぐ爆発 → すぐ復帰（待ち時間は半分以下）
 ja: 頼んまっさ：カメラが近くなり、迫力が上がりました

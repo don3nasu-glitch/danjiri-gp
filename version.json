@@ -1,1 +1,1 @@
-{"shell": 1, "build": "9f2e6232b9f5", "made": "2026-11-12T08:03Z", "files": {"loader": "WebGL.loader.js?v=9f2e6232b9f5", "data": "WebGL.data.unityweb?v=9f2e6232b9f5", "framework": "WebGL.framework.js.unityweb?v=9f2e6232b9f5", "code": "WebGL.wasm.unityweb?v=9f2e6232b9f5"}}
+{"shell": 1, "build": "beadc2dbf7d5", "made": "2026-11-13T08:43Z", "files": {"loader": "WebGL.loader.js?v=beadc2dbf7d5", "data": "WebGL.data.unityweb?v=beadc2dbf7d5", "framework": "WebGL.framework.js.unityweb?v=beadc2dbf7d5", "code": "WebGL.wasm.unityweb?v=beadc2dbf7d5"}}
