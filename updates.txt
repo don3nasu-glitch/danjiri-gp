@@ -1,3 +1,7 @@
+# 2026-11-15
+ja: 大工方の顔：まゆ毛・くちびる・顔の陰影を見直して、表情がはっきりしました。肌の最初の色も、少し日焼けした健康的な色に（自分で選んだ色はそのまま）
+en: Your character's face: clearer eyebrows, lips and shading. The starting skin tone is a little more sun-tanned (colors you picked yourself are kept)
+
 # 2026-11-13
 ja: 大工方えらび：両手を前に突き出す変なポーズをやめて、自然に立つようになりました。光も見直して、顔に陰影が出ます
 ja: 怪獣見物：超巨大UFOが出場に戻りました（UFOと同じく低空飛行・体当たり・急降下・吸い上げ）。出場は二十体
