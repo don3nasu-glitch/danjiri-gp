@@ -1,3 +1,15 @@
+# 2026-11-16
+ja: 不具合を直しました：長く遊び続けると、だんだん重くなって落ちることがありました（壊した建物のがれきなどが片付けられずに残っていました）
+ja: 不具合を直しました：一時停止したまま画面が切り替わると、何も押せなくなることがありました
+ja: 名前が変わりました：「応援札」は「勝ち予想」に、「応援札の受付」は「見物の受付」になりました（遊び方は同じです）
+ja: かどで自分から横倒しにならなくなりました（ぎりぎりまで傾いて、持ち直します）
+ja: 音の設定で、音楽だけでなく全部の音を消したり小さくしたりできます
+en: Bug fix: the game could get slower and crash after playing for a long time (rubble from wrecked buildings was never cleared)
+en: Bug fix: if the screen changed while paused, nothing could be tapped
+en: Renamed: "cheer tags" are now "picks", and their desk is now the "Spectator Desk" (same way to play)
+en: Floats no longer tip over on their own at corners (they lean to the edge and recover)
+en: The sound setting now mutes or lowers every sound, not just the music
+
 # 2026-11-15
 ja: 大工方の顔：まゆ毛・くちびる・顔の陰影を見直して、表情がはっきりしました。肌の最初の色も、少し日焼けした健康的な色に（自分で選んだ色はそのまま）
 en: Your character's face: clearer eyebrows, lips and shading. The starting skin tone is a little more sun-tanned (colors you picked yourself are kept)
