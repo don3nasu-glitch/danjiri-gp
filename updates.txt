@@ -1,3 +1,12 @@
+# 2026-11-19
+ja: 村の畑が使えるようになりました：レースや頼んまっさを1回終えるたびに育ち、塩むすび・力水・木っ端・紙垂が取れます
+en: The village farm is open: crops grow each time you finish a race or request, giving rice balls, power water, wood chips and paper streamers
+ja: 頼んまっさの操作を遊びやすくしました：右下に大きな「攻撃」、その左に「かわす」。相手を見つけると自動でロックします
+en: Easier request controls: a big ATTACK button at the bottom right with DODGE beside it, and auto lock-on when you find the target
+ja: クチダケモノの素材から作れる武器と防具を追加しました
+en: New weapon and armor made from Kuchidake materials
+ja: 「全画面にする」の表示をなくしました
+en: Removed the "Go fullscreen" prompt
 # 2026-11-16
 ja: 不具合を直しました：町をずっと壊し続けると、画面が暗くなって落ちることがありました（がれきが際限なく増えていました）
 en: Bug fix: wrecking the town for a long time could crash the game (rubble kept piling up without limit)
