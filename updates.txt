@@ -1,3 +1,9 @@
+# 2026-11-20
+ja: 怪獣見物：クチダケモノの技が増えました。ケツ光線・前後はさみ撃ち光線・奥義「コウナイエン光線」（ぐるっと回る光線）
+en: Kaiju Bouts: Kuchidake has new moves: the Butt Beam, a front-and-back crossfire, and its ultimate, a spinning beam
+ja: 怪獣見物の実況が大はばに増えました。怪獣ごとの技にツッコむ掛け合いや、大きく当たった時のひとことも入りました
+en: Much more Kaiju Bouts commentary, including lines for each monster's moves and big hits
+
 # 2026-11-19
 ja: 村の畑が使えるようになりました：レースや頼んまっさを1回終えるたびに育ち、塩むすび・力水・木っ端・紙垂が取れます
 en: The village farm is open: crops grow each time you finish a race or request, giving rice balls, power water, wood chips and paper streamers
