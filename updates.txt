@@ -1,3 +1,11 @@
+# 2026-11-22
+ja: 最初のレース（浜通り）は、ゴールすればクリアになりました。すぐに頼んまっさ（★1）も頼めます。評価Aで称号がもらえます
+en: The first race (Beach Street) now clears on any finish, and the first requests (1 star) open right away. Grade A earns a title
+ja: コースを外れて町に入ったまましばらくたつと「コースへ戻りますか？」と聞くようになりました。「はい」で道に戻れます
+en: If you stay off the course for a while, the game now asks "Go back to the course?" Tap Yes to return to the road
+ja: 不具合を直しました：実況で、ヘリ子・町の名前（〜ちょう）・「勝った」などの読み方がおかしいところがありました
+en: Bug fix: some commentary words were read out wrong, including Heliko, town names and "won"
+
 # 2026-11-20
 ja: 怪獣見物：クチダケモノの技が増えました。ケツ光線・前後はさみ撃ち光線・奥義「コウナイエン光線」（ぐるっと回る光線）
 en: Kaiju Bouts: Kuchidake has new moves: the Butt Beam, a front-and-back crossfire, and its ultimate, a spinning beam
