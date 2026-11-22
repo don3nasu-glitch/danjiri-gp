@@ -1,3 +1,9 @@
+# 2026-11-23
+ja: はじめての人は、タイトルの「すぐレース！」から、すぐに最初のレースに出られるようになりました。村へは、走ったあとで
+en: New players can now jump straight into the first race from the title with "Race now!" The village comes after the run
+ja: 会所の「見物の受付」（見物レース・怪獣見物・寄進・予想屋）、彫師、神社の「願いを書く」は、お休みにしました。これからはレースに力を入れます
+en: The Spectator Desk (spectator races, Kaiju Bouts, offerings, tipsters), the tattooist and the shrine's "Write a wish" are now closed. We are focusing on racing
+
 # 2026-11-22
 ja: 最初のレース（浜通り）は、ゴールすればクリアになりました。すぐに頼んまっさ（★1）も頼めます。評価Aで称号がもらえます
 en: The first race (Beach Street) now clears on any finish, and the first requests (1 star) open right away. Grade A earns a title
