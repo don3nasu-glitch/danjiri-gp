@@ -1,4 +1,8 @@
 # 2026-11-23
+ja: タイトルに「ひとりで走る」ができました。レースの一覧からえらんで、村を通らずにすぐ出発できます。村（装備・神社・頼んまっさ）へは「村へ」から
+en: New on the title: "Race solo". Pick a race from the list and start right away without going through the village. Gear, shrine and Tanma are under "Village"
+ja: 釣りの桟橋・畑・力くらべの広場・会所の両替屋・町の人のお願いは、お休みにしました
+en: The fishing pier, the field, the Contest Ground, the Exchange and townsfolk favors are now closed
 ja: はじめての人は、タイトルの「すぐレース！」から、すぐに最初のレースに出られるようになりました。村へは、走ったあとで
 en: New players can now jump straight into the first race from the title with "Race now!" The village comes after the run
 ja: 会所の「見物の受付」（見物レース・怪獣見物・寄進・予想屋）、彫師、神社の「願いを書く」は、お休みにしました。これからはレースに力を入れます
