@@ -1,8 +1,8 @@
 # 2026-11-24
-ja: レースで流す曲を、レースの前に選べるようになりました（「ひとりで走る」→レースの一覧の下の紫のボタン）。試聴もできます。日本語の歌・英語の歌、曲あり（歌入り）・曲無し（歌なし）、曲の大きさも選べます
-en: You can now pick your race music before a race ("Race solo" → the purple button under the race list). Preview songs, choose Japanese or English vocals, with or without vocals, and set the volume
-ja: 新曲を2つ追加しました。白羽すずね「祭り日和、駆け日和！」、月影レイ「勝負は次の角で。」
-en: Two new race songs: "Festival Day, Race Away!" by Suzune Shiraha and "The Next Corner" by Rei Tsukikage
+ja: レースで流す曲を、レースの前に選べるようになりました（「ひとりで走る」→レースの一覧の下の紫のボタン）。試聴もできます。日本語の歌・英語の歌、曲あり・曲無し（レース中は曲を流さない）、曲の大きさも選べます
+en: You can now pick your race music before a race ("Race solo" → the purple button under the race list). Preview songs, choose Japanese or English vocals, turn race music on or off, and set the volume
+ja: 新曲を4つ追加しました。白羽すずね「祭り日和、駆け日和！」、月影レイ「勝負は次の角で。」、月瀬朔路「ちからお いっぽんに」、黒鉄しぐれ「一拍ずらして」
+en: Four new race songs: "Festival Day, Race Away!" by Suzune Shiraha, "The Next Corner" by Rei Tsukikage, "Pull as One" by Sakuji Tsukise and "One Beat Off" by Shigure Kurogane
 ja: レース中の曲は、実況が話していても小さくならず、最初から最後まで同じ大きさで流れるようにしました
 en: Race music now plays at a steady volume from start to finish, even while the commentators talk
 ja: はじめてのレースの画面の表示を、すっきりさせました
