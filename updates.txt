@@ -1,3 +1,6 @@
+# 2026-11-25
+ja: 見た目をきれいにしました。屋根の瓦・壁・木の葉・窓、怪獣の甲羅や毛並み、そして大工方は両手の団扇で盛り上げます
+en: Visual upgrade: roof tiles, walls, trees and windows, monster shells and fur, and the roof dancers now wave a fan in each hand
 # 2026-11-24
 ja: レースで流す曲を、レースの前に選べるようになりました（「ひとりで走る」→レースの一覧の下の紫のボタン）。試聴もできます。日本語の歌・英語の歌、曲あり・曲無し（レース中は曲を流さない）、曲の大きさも選べます
 en: You can now pick your race music before a race ("Race solo" → the purple button under the race list). Preview songs, choose Japanese or English vocals, turn race music on or off, and set the volume
