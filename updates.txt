@@ -1,3 +1,7 @@
+# 2026-11-24
+ja: ゴールしたあと、結果の画面からそのまま「次のレースへ」進めるようになりました（タイトルの「ひとりで走る」から出たとき）
+en: After a race you can now go straight to the next race from the result screen (when you start from "Race solo" on the title)
+
 # 2026-11-23
 ja: タイトルに「ひとりで走る」ができました。レースの一覧からえらんで、村を通らずにすぐ出発できます。村（装備・神社・頼んまっさ）へは「村へ」から
 en: New on the title: "Race solo". Pick a race from the list and start right away without going through the village. Gear, shrine and Tanma are under "Village"
