@@ -1,4 +1,8 @@
 # 2026-11-25
+ja: 紅蓮ライガの新曲「ただいま、全速力。」を追加しました（レースの曲えらびで選べます）
+en: New race song: "Full Speed, Right Now!" by Raiga Kuren (pick it in the race music list)
+ja: 新コース「岸和田の町並み」を追加しました（フリー曳行・タイムトライアルの「実在の町」）。国土交通省 PLATEAU の3D都市モデル（岸和田市）を加工し、実在の町の建物の並びを再現しています
+en: New course "Kishiwada Streets" (Free Run / Time Trial, "Real Town"), recreating a real town's layout from modified MLIT Project PLATEAU 3D city data (Kishiwada City)
 ja: 見た目をきれいにしました。屋根の瓦・壁・木の葉・窓、怪獣の甲羅や毛並み、そして大工方は両手の団扇で盛り上げます
 en: Visual upgrade: roof tiles, walls, trees and windows, monster shells and fur, and the roof dancers now wave a fan in each hand
 # 2026-11-24
