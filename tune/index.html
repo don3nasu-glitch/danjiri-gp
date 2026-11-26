@@ -222,12 +222,12 @@
       }
 
       var buildUrl = "tune/Build";
-      var loaderUrl = buildUrl + "/WebGL.loader.js?v=t6d3da2ccf36";
+      var loaderUrl = buildUrl + "/WebGL.loader.js?v=tebf260f9b1f";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/WebGL.data.unityweb?v=t6d3da2ccf36",
-        frameworkUrl: buildUrl + "/WebGL.framework.js.unityweb?v=t6d3da2ccf36",
-        codeUrl: buildUrl + "/WebGL.wasm.unityweb?v=t6d3da2ccf36",
+        dataUrl: buildUrl + "/WebGL.data.unityweb?v=tebf260f9b1f",
+        frameworkUrl: buildUrl + "/WebGL.framework.js.unityweb?v=tebf260f9b1f",
+        codeUrl: buildUrl + "/WebGL.wasm.unityweb?v=tebf260f9b1f",
         streamingAssetsUrl: new URL("StreamingAssets", document.baseURI).href,
         cacheControl: function (url) { return "no-store"; },
 
@@ -270,7 +270,9 @@
         // 10/25：横向きモードの状態。pref = 選んだ向き（90 / 270、0 は使わない）。on = いま実際にまわしているか
         var rot = window.__djRot = { inApp: /Twitter|FBAN|FBAV|Instagram|Line\/|TikTok|musical_ly|BytedanceWebview/i.test(navigator.userAgent || ""), pref: 0, on: false, deg: 90, cx: 0, cy: 0, w: 0, h: 0 };
         try { var rp = parseInt(window.localStorage.getItem("djgp_rotate") || "0", 10); if (rp === 90 || rp === 270) rot.pref = rp; } catch (e) {}
-        rot.want = function () { return rot.inApp && rot.pref > 0 && window.innerHeight > window.innerWidth; };
+        // 11/26 編集長「強制的に横向きになるようにしませんか？だんじり競艇みたいに」：スマホのブラウザでも、縦に持っていたらゲームを横向きにまわす（アプリの中は、もともと横向き固定）
+        if (!rot.pref) rot.pref = 90;
+        rot.want = function () { return rot.pref > 0 && window.innerHeight > window.innerWidth; };
 
         // 10/25：X・LINE・Instagram などアプリの中のブラウザは横向きにできない → ふつうのブラウザで開く案内（LINE は自動で外へ）
         (function () {
@@ -452,7 +454,7 @@
           };
           document.addEventListener("visibilitychange", function () { if (!document.hidden && rot.on) wake(); });
           document.querySelector("#rot-flip").onclick = function (e) { e.stopPropagation(); wake(); window.__djRotSet(rot.pref === 90 ? 270 : 90); };
-          document.querySelector("#rot-exit").onclick = function (e) { e.stopPropagation(); window.__djRotSet(0); };
+          document.querySelector("#rot-exit").style.display = "none";   // 11/26：横向きは強制（縦にもどすボタンは出さない）
           sync(); setInterval(sync, 400);
         })();
 
