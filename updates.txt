@@ -1,3 +1,8 @@
+# 2026-11-26
+ja: はじめて遊ぶ人が、すぐ走り出せるようにしました（はじめてのレースの前のコース紹介を短く。タイトル画面をすっきり）
+en: New players get racing faster: a shorter course intro before your first race and a cleaner title screen
+ja: オープニング映像は、はじめて起動した時だけ流れます（村の「ほかの遊び・設定」で「毎回」にもできます）
+en: The opening movie now plays only on your first launch (set it to "Always" in the village Settings)
 # 2026-11-25
 ja: 紅蓮ライガの新曲「ただいま、全速力。」を追加しました（レースの曲えらびで選べます）
 en: New race song: "Full Speed, Right Now!" by Raiga Kuren (pick it in the race music list)
