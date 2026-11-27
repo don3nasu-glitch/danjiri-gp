@@ -1,3 +1,10 @@
+# 2026-11-27
+ja: レースが「競技」になりました。遣り回しを決めると加速、続けて決めるほど伸びます。UFOや怪獣の乱入はなし、腕で勝負
+en: Races are now "Sport": nail a corner drift for a boost, chain them for more. No invaders - win by skill
+ja: 銅貨を10枚ためると道具が1個。後ろを走っているほど、大逆転の道具（綱さばき・雷・大太鼓）が出ます
+en: Collect 10 copper coins for an item. The further back you are, the bigger the comeback item
+ja: タイトルの右下のボタンで、これまでのにぎやかな「お祭り」のレースにも切りかえられます
+en: Use the button at the bottom right of the title to switch back to the wild "Festival" race
 # 2026-11-26
 ja: はじめて遊ぶ人が、すぐ走り出せるようにしました（はじめてのレースの前のコース紹介を短く。タイトル画面をすっきり）
 en: New players get racing faster: a shorter course intro before your first race and a cleaner title screen
